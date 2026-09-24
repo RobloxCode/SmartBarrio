@@ -10,14 +10,28 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
 button{font:inherit;cursor:pointer;border:1px solid var(--br);background:var(--card);color:var(--tx);padding:8px 13px;border-radius:10px;transition:.15s}
 button:hover{border-color:var(--ac)}.pri{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 input,select{font:inherit;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--br);background:var(--card);color:var(--tx)}
 header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--br);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
 .logo{font-weight:700;font-size:17px;letter-spacing:-.3px}.logo i{font-style:normal;background:var(--ac);color:#fff;border-radius:8px;padding:2px 7px;margin-right:6px}
-.seg{display:flex;background:var(--bg);padding:3px;border-radius:11px;border:1px solid var(--br)}.seg button{border:0;background:none;padding:6px 14px}.seg button.on{background:var(--ac);color:#fff}
-.mu{color:var(--mu);font-size:12.5px}.tag{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:99px;background:var(--ok2);color:var(--okt);font-weight:600}.tag.w{background:var(--wn2);color:var(--wn)}
+.who{font-size:13px;font-weight:600;white-space:nowrap}
+@media(max-width:380px){.who{display:none}}
+.mu{color:var(--mu);font-size:12.5px}.tag{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:99px;background:var(--ok2);color:var(--okt);font-weight:600}.tag.w{background:var(--wn2);color:var(--wn)}.tag.nt{background:var(--br);color:var(--mu)}
 h2{font-size:22px;margin:0 0 2px;letter-spacing:-.4px}h3{font-size:14.5px;margin:0 0 8px}
 .flex{display:flex;justify-content:space-between;gap:10px;align-items:center}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1 1 auto}.row .fit{flex:0 0 auto}
 .bar{height:7px;border-radius:9px;background:var(--br);overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);border-radius:9px}
+.dot{display:inline-grid;place-items:center;font-style:normal;background:var(--rd);color:#fff;font-size:9.5px;font-weight:700;min-width:16px;height:16px;border-radius:99px;padding:0 4px;margin-left:4px}
+/* ---------- LOGIN ---------- */
+#login{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:calc(20px + env(safe-area-inset-top,0px)) 16px calc(20px + env(safe-area-inset-bottom,0px));overflow:auto}
+#login.hide{display:none}
+.lcard{width:100%;max-width:390px;background:var(--card);border:1px solid var(--br);border-radius:22px;padding:26px 22px;box-shadow:var(--sh);position:relative}
+.lthm{position:absolute;top:14px;right:14px;padding:6px 10px}
+.rolepick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0 6px}
+.rolepick button{padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:2px;border-radius:14px;border-width:2px}
+.rolepick button b{font-size:28px;font-weight:400;line-height:1.2}
+.rolepick button.on{border-color:var(--ac);background:var(--ac2);color:var(--ac);font-weight:700}
+label.f{display:block;font-size:12.5px;color:var(--mu);margin:12px 0 4px}
+.lerr{color:var(--rd);font-size:12.5px;min-height:18px;margin-top:8px}
 /* ---------- PHONE ---------- */
 #V{display:flex;justify-content:center;padding:22px 12px}
 .phone{width:372px;max-width:100%;height:780px;max-height:calc(100vh - 100px);min-height:620px;background:var(--card);border:9px solid #111;border-radius:42px;position:relative;overflow:hidden;box-shadow:0 20px 50px #0004;display:flex;flex-direction:column}
@@ -49,13 +63,44 @@ table{width:100%;border-collapse:collapse}th{font-size:12px;color:var(--mu);font
 .bars{display:flex;align-items:flex-end;gap:10px;height:110px}.bars div{flex:1;text-align:center;font-size:11px;color:var(--mu)}.bars i{display:block;background:var(--ac);border-radius:6px 6px 0 0;margin-bottom:4px;opacity:.85}
 .modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.modal.show{display:flex}.modal .card{width:100%;max-width:440px}
 .thumb{height:110px;border:2px dashed var(--br);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--mu);overflow:hidden;cursor:pointer}.thumb img{width:100%;height:100%;object-fit:cover}
+.cam{width:100%;border-radius:10px;background:#12161b;display:block}
+textarea{font:inherit;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--br);background:var(--card);color:var(--tx);resize:vertical}
+.modal .card{max-height:calc(100dvh - 32px);overflow:auto}
+.need{border-color:var(--wn)!important;background:var(--wn2)!important}
+.shots{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px;margin-top:10px}
+.shot{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:1;background:var(--bg);border:1px solid var(--br)}.shot img{width:100%;height:100%;object-fit:cover;display:block}.shot .tag{position:absolute;left:4px;bottom:4px}.shot button{position:absolute;top:4px;right:4px;padding:0 7px;border-radius:99px;font-size:12px;line-height:20px}
+#vid{width:100%;border-radius:10px;background:#000;display:block;margin-top:10px;max-height:320px;object-fit:cover}
+.srow{display:grid;grid-template-columns:auto 1fr 56px 66px;gap:6px;align-items:center;padding:6px 0;border-bottom:1px solid var(--br)}.srow input{padding:7px 8px}.srow input[type=checkbox]{width:18px;height:18px;padding:0}.srow.low .sn{border-color:var(--wn)}.srow.hd{border:0;padding-bottom:0}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:80;max-width:90vw}#toast.show{opacity:1;transform:translate(-50%,0)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--br);border-top-color:var(--ac);border-radius:50%;animation:sp 1s linear infinite;vertical-align:-2px;margin-right:6px}@keyframes sp{to{transform:rotate(360deg)}}
+.price s{color:var(--mu);font-weight:400}
+@media(prefers-reduced-motion:reduce){.spin,.pulse{animation:none}}
+/*TLAYOUT*/
 #T{display:none;justify-content:center;padding:22px 12px}
 #tmain{flex:1;overflow:auto}#tmain section{padding:12px 16px}
 .grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.kpi b{font-size:22px}
 .card.flex{flex-wrap:wrap}.tabs button{min-width:0}
+#ttabs{padding:6px 2px 12px;overflow-x:auto}#ttabs button{flex:1 0 44px;font-size:10px;padding:6px 1px;position:relative}#ttabs button b{font-size:17px}
+#ttabs .dot{position:absolute;top:0;right:calc(50% - 22px);margin:0}
 @media(max-width:480px){#V,#T{padding:0}.phone{width:100%;height:calc(100dvh - 58px);max-height:none;min-height:0;border:0;border-radius:0;box-shadow:none}.phone:before,.sb{display:none}}
+/*/TLAYOUT*/
 </style></head><body>
-<header><div class="logo"><i>SB</i>SmartBarrio</div><div class="row" style="flex:0 0 auto;flex-wrap:nowrap"><button id="thm" onclick="theme()" title="Cambiar tema" aria-label="Cambiar tema">🌙</button><div class="seg" id="role"><button class="on" data-r="v">Vecino</button><button data-r="t">Tendero</button></div></div></header>
+
+<!-- ================= INICIO DE SESIÓN ================= -->
+<div id="login"><div class="lcard">
+<button class="lthm" onclick="theme()" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+<div class="logo" style="font-size:20px"><i>SB</i>SmartBarrio</div>
+<h2 style="margin-top:18px">Iniciar sesión</h2><p class="mu" style="margin:0">¿Cómo quieres entrar hoy?</p>
+<div class="rolepick" id="lrole"><button type="button" class="on" data-r="v"><b>🧑</b>Cliente<span class="mu">Busco productos</span></button><button type="button" data-r="t"><b>🏪</b>Tendero<span class="mu">Administro mi tienda</span></button></div>
+<label class="f" for="lu" id="lul">Teléfono o número de tarjeta</label><input id="lu" autocomplete="username">
+<label class="f" for="lp" id="lpl">PIN</label><input id="lp" type="password" autocomplete="current-password">
+<div class="lerr" id="lerr" role="alert"></div>
+<button class="pri" style="width:100%;padding:12px" onclick="login()" id="lgo">Entrar como cliente</button>
+<button style="width:100%;margin-top:8px" onclick="login(1)">Usar cuenta de prueba</button>
+<p class="mu" style="text-align:center;margin:14px 0 0">Prototipo: tus datos no salen de este navegador.</p>
+</div></div>
+
+<header><div class="logo"><i>SB</i>SmartBarrio</div><div class="row" style="flex:0 0 auto;flex-wrap:nowrap"><button id="thm" onclick="theme()" title="Cambiar tema" aria-label="Cambiar tema">🌙</button><span class="who" id="whon"></span><button onclick="logout()">Salir</button></div></header>
 
 <!-- ================= VECINO (celular) ================= -->
 <div id="V"><div class="phone">
@@ -81,17 +126,27 @@ table{width:100%;border-collapse:collapse}th{font-size:12px;color:var(--mu);font
 </div></div>
 
 <!-- ================= TENDERO ================= -->
-<div id="T"><div class="phone"><div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div><main id="tmain">
+<!--TOPEN--><div id="T"><div class="phone"><div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div><main id="tmain"><!--/TOPEN-->
 <section id="t-resumen"><h2>Resumen del mes</h2><p class="mu">Datos de ejemplo</p>
 <div class="grid" style="margin-top:12px"><div class="card kpi"><span class="mu">Ventas por la plataforma</span><b>$18,400</b><span class="tag">+12%</span></div><div class="card kpi"><span class="mu">Lo que pagas (3%)</span><b>$552</b></div><div class="card kpi"><span class="mu">Merma evitada</span><b>$1,150</b></div><div class="card kpi"><span class="mu">Ventas perdidas (aprox.)</span><b>$250</b></div></div>
 <div class="grid"><div class="card"><h3>Ventas por la plataforma · semana</h3><div class="bars"><div><i style="height:40%"></i>L</div><div><i style="height:55%"></i>M</div><div><i style="height:48%"></i>M</div><div><i style="height:70%"></i>J</div><div><i style="height:90%"></i>V</div><div><i style="height:100%"></i>S</div><div><i style="height:62%"></i>D</div></div></div>
-<div class="card warn"><h3>⚠️ Requiere tu atención</h3><div id="resalert"></div></div></div>
+<div class="card warn"><h3>⚠️ Requiere tu atención</h3><div id="resmerma"></div><div id="resalert"></div></div></div>
 <div class="card">Tu balance: ganaste <b>$1,598</b> más de lo que pagaste. <span class="tag">Siempre ganas más de lo que pagas</span></div></section>
 
-<section id="t-inv"><div class="flex" style="flex-wrap:wrap"><div><h2>Inventario</h2><p class="mu">Entradas, salidas y cambios de cada producto.</p></div><div class="row fit"><button class="pri" onclick="M(1)">+ Agregar producto</button><button onclick="alert('Demo: aquí subirías tu CSV/Excel')">Importar mi base</button></div></div>
-<input id="fi" placeholder="Filtrar producto…" oninput="rInv()" style="margin-top:8px"><div class="card" id="inv"></div></section>
+<section id="t-inv"><div class="flex" style="flex-wrap:wrap"><div><h2>Inventario</h2><p class="mu">Entradas, salidas y cambios de cada producto.</p></div><div class="row fit"><button class="pri" onclick="openScan()">📷 Escanear estante</button><button onclick="M(1)">+ Agregar producto</button><button onclick="alert('Demo: aquí subirías tu CSV/Excel')">Importar mi base</button></div></div>
+<input id="fi" placeholder="Filtrar producto…" oninput="rInv()" style="margin-top:8px"><!--TINVHTML--><div class="card" id="inv"></div><!--/TINVHTML--></section>
+
+<section id="t-merma"><h2>Merma y descuentos</h2><p class="mu">Ponle descuento a lo que está por caducar antes de tener que tirarlo.</p>
+<div class="grid" style="margin-top:12px"><div class="card kpi"><span class="mu">En riesgo (7 días)</span><b id="mk1"></b></div><div class="card kpi"><span class="mu">Recuperado con descuentos</span><b id="mk2"></b></div><div class="card kpi"><span class="mu">Merma registrada</span><b id="mk3"></b></div></div>
+<div class="card"><h3>Por caducar</h3><div id="mlist"></div><p class="mu" style="margin:8px 0 0">Descuento sugerido: 15% a 7 días, 30% a 3 días y 50% a 1 día o menos. Puedes cambiarlo antes de publicar.</p></div>
+<div class="card warn"><h3>Ya caducados</h3><div id="mexp"></div></div>
+<div class="card"><h3>Historial</h3><div id="mlog"></div></div></section>
 
 <section id="t-alertas"><h2>Alertas</h2><p class="mu">La cámara solo captura la imagen; tú decides qué hacer.</p><div id="alerts"></div></section>
+
+<section id="t-cam"><h2>Cámaras</h2><p class="mu">Simulación: la cámara solo captura la imagen; tú decides qué hacer.</p><span class="tag">Procesamiento local · sin reconocer rostros</span>
+<!--CAMGRID--><div id="camgrid" style="margin-top:8px"></div><!--/CAMGRID-->
+<h3 style="margin-top:16px">Capturas para revisión <span class="tag w" id="capn">0</span></h3><div id="caps"></div></section>
 
 <section id="t-tend"><h2>Lo que busca el barrio</h2><p class="mu">Resumen semanal.</p>
 <div class="grid" style="margin-top:12px"><div class="card"><h3>Buscaron y no tenías</h3><div id="lost"></div></div><div class="card"><h3>Más vendidos (tú vs. red)</h3><div id="top"></div></div></div>
@@ -103,23 +158,60 @@ table{width:100%;border-collapse:collapse}th{font-size:12px;color:var(--mu);font
 
 <section id="t-promo"><h2>Crear promoción</h2>
 <div class="card"><div class="row"><input id="pt" placeholder="Título (ej. 2x1 en refrescos)"><input id="pd" type="date"></div><div class="row" style="margin-top:8px"><select id="pk"><option>Descuento %</option><option>2x1</option><option>Puntos dobles</option></select><button class="pri fit" onclick="addPromo()">Publicar</button></div><p class="mu">Se muestra a vecinos cercanos (mira la pestaña Promos del celular).</p></div><div id="mypromos"></div></section>
-</main><div class="tabs" id="ttabs"></div></div></div>
+<!--TCLOSE--></main><div class="tabs" id="ttabs"></div></div></div><!--/TCLOSE-->
 
 <div class="modal" id="m"><div class="card"><h3>Nuevo producto</h3>
 <label class="thumb" id="th">📷 Tomar foto<input type="file" accept="image/*" capture="environment" hidden onchange="foto(this)"></label>
 <input id="mn" placeholder="Nombre del producto" style="margin-top:8px">
 <div class="row" style="margin-top:8px"><input id="mq" type="number" min="0" placeholder="Cantidad"><button class="fit" id="mic" onclick="voz()">🎤 Decir cantidad</button></div>
 <input id="mp" type="number" placeholder="Precio $" style="margin-top:8px">
+<label class="f" for="mc">Caducidad (opcional)</label><input id="mc" type="date">
 <div class="row" style="margin-top:12px"><button onclick="M(0)">Cancelar</button><button class="pri" onclick="saveP()">Guardar</button></div></div></div>
+
+<div class="modal" id="scan"><div class="card">
+<div class="flex"><h3 style="margin:0">📷 Escanear estante</h3><button onclick="closeScan()" aria-label="Cerrar">✕</button></div>
+<p class="mu" style="margin:6px 0 10px">Toma fotos de tus anaqueles. La IA cuenta lo que ve y tú revisas todo antes de guardarlo.</p>
+<div class="row"><button onclick="camOn()" id="camb">📷 Abrir cámara</button><button onclick="$('sfile').click()">🖼️ Subir fotos</button></div>
+<input id="sfile" type="file" accept="image/*" multiple hidden onchange="addFiles(this)">
+<div id="camwrap" hidden><video id="vid" autoplay playsinline muted></video><div class="row" style="margin-top:8px"><button class="pri" onclick="snap()">Capturar foto</button><button onclick="camOff()">Cerrar cámara</button></div></div>
+<div id="shots" class="shots"></div><div id="qmsg"></div>
+<label class="f" for="snote">¿Alguna foto salió borrosa? Escribe lo que hay en ese estante</label>
+<textarea id="snote" rows="3" placeholder="Ej. 12 Coca-Cola 600 ml, 8 Sabritas, 5 aceite 1 L"></textarea>
+<button class="pri" style="width:100%;margin-top:12px;padding:11px" id="sgo" onclick="analyze()">Analizar con IA</button>
+<div class="mu" id="smode" style="margin-top:6px;text-align:center"></div>
+<div id="sstat" style="margin-top:10px"></div><div id="sres"></div>
+</div></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const $=id=>document.getElementById(id);
+let caps=[];
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const DAY=864e5,money=x=>"$"+Math.round(x).toLocaleString("es-MX");
+function today(){const d=new Date();d.setHours(0,0,0,0);return d}
+function addD(n){const d=new Date(today().getTime()+n*DAY);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function dLeft(c){return c?Math.round((new Date(c+"T00:00:00")-today())/DAY):null}
+function when(d){return d<0?"caducado":d==0?"hoy":d==1?"mañana":"en "+d+" días"}
+function cadTag(p){const d=dLeft(p.cad);if(d==null||p.q<=0||d>7)return "";return `<span class="tag w">${d<0?"Caducado":"Caduca "+when(d)}</span>`}
+let tt;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),3000)}
 /* ---------- navegación ---------- */
-const NAV=[["resumen","📊","Resumen"],["inv","📦","Stock"],["alertas","🔔","Alertas"],["tend","📈","Datos"],["com","🤝","Barrio"],["promo","🏷️","Promos"]];
-function role(r){$("V").style.display=r=="v"?"flex":"none";$("T").style.display=r=="t"?"flex":"none";document.querySelectorAll("#role button").forEach(b=>b.classList.toggle("on",b.dataset.r==r))}
-function tshow(s){document.querySelectorAll("#tmain section").forEach(e=>e.classList.toggle("show",e.id=="t-"+s));$("tmain").scrollTop=0;$("ttabs").innerHTML=NAV.map(([k,i,l])=>`<button class="${k==s?"on":""}" onclick="tshow('${k}')"><b>${i}</b>${l}</button>`).join("")}
-document.querySelectorAll("#role button").forEach(b=>b.onclick=()=>role(b.dataset.r));
+/*TNAV*/
+const NAV=[["resumen","📊","Resumen"],["inv","📦","Stock"],["merma","🕒","Merma"],["alertas","🔔","Alertas"],["cam","📹","Cámaras"],["tend","📈","Datos"],["com","🤝","Barrio"],["promo","🏷️","Promos"]];let TS="resumen";
+function role(r){$("V").style.display=r=="v"?"flex":"none";$("T").style.display=r=="t"?"flex":"none"}
+function rTabs(){const n=caps.filter(c=>!c.ev).length;$("ttabs").innerHTML=NAV.map(([k,i,l])=>`<button class="${k==TS?"on":""}" onclick="tshow('${k}')"><b>${i}</b>${l}${k=="cam"&&n?`<i class="dot">${n}</i>`:""}</button>`).join("")}
+function tshow(s){TS=s;document.querySelectorAll("#T section").forEach(e=>e.classList.toggle("show",e.id=="t-"+s));$("tmain").scrollTop=0;rTabs()}
+/*/TNAV*/
 document.querySelectorAll("#vtabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#vtabs button").forEach(x=>x.classList.toggle("on",x==b));document.querySelectorAll(".scr").forEach(e=>e.classList.toggle("show",e.id=="p-"+b.dataset.s))});
+
+/* ---------- inicio de sesión ---------- */
+let LR="v";
+const LTXT={v:["Teléfono o número de tarjeta","Ej. 0482-7731","PIN","Entrar como cliente"],t:["Correo o teléfono de la tienda","Ej. laesquina@correo.mx","Contraseña","Entrar como tendero"]};
+function lrole(r){LR=r;document.querySelectorAll("#lrole button").forEach(b=>b.classList.toggle("on",b.dataset.r==r));const x=LTXT[r];$("lul").textContent=x[0];$("lu").placeholder=x[1];$("lpl").textContent=x[2];$("lgo").textContent=x[3];$("lerr").textContent=""}
+document.querySelectorAll("#lrole button").forEach(b=>b.onclick=()=>lrole(b.dataset.r));
+function login(demo){const u=$("lu").value.trim(),p=$("lp").value;if(!demo&&(!u||!p)){$("lerr").textContent="Escribe tu usuario y "+(LR=="v"?"PIN":"contraseña")+", o usa la cuenta de prueba.";return}enter(LR)}
+function enter(r){$("login").classList.add("hide");role(r);$("whon").textContent=r=="v"?"🧑 Cliente":"🏪 La Esquina";if(r=="t")tshow(TS);try{localStorage.setItem("sb-sess",r)}catch(e){}}
+function logout(){$("login").classList.remove("hide");$("lp").value="";lrole(LR);try{localStorage.removeItem("sb-sess")}catch(e){}}
+$("lp").onkeydown=e=>{if(e.key=="Enter")login()};
 
 /* ---------- MAPA simulado ---------- */
 const U={x:180,y:300},NS="http://www.w3.org/2000/svg";
@@ -144,19 +236,26 @@ function base(){el("rect",{x:-200,y:-200,width:800,height:900,fill:"var(--blk)"}
  [[-200,90,800,16],[-200,205,800,14],[-200,320,800,18],[-200,410,800,14],[85,-200,14,900],[195,-200,16,900],[275,-200,14,900]].forEach(r=>el("rect",{x:r[0],y:r[1],width:r[2],height:r[3],fill:"var(--road)"}));
  el("path",{d:"M-20 520 L380 20",stroke:"var(--road)","stroke-width":12,fill:"none"});
  [["Av. Madero",20,101],["Calle Hidalgo",20,217],["Calle Morelos",20,335],["Calle Juárez",20,423]].forEach(t=>el("text",{x:t[1],y:t[2],"font-size":7.5,fill:"var(--mu)"},svg,t[0]))}
-function list(){const q=key($("q").value||"");return S.filter(t=>(F!="abierto"||t.o)&&(!q||(t.s[q]&&(F!="stock"||t.s[q][0]>0)))).map(t=>({t,q,inv:q&&t.s[q]})).sort((a,b)=>(dist(a.t)-dist(b.t)))}
+function list(){const q=key($("q").value||"");return S.filter(t=>(F!="abierto"||t.o)&&(F!="stock"||!q||(t.s[q]&&t.s[q][0]>0))).map(t=>{const inv=q?t.s[q]:null;return {t,q,inv,st:!q?"n":!inv?"no":inv[0]>0?"ok":"ago"}}).sort((a,b)=>dist(a.t)-dist(b.t))}
 function draw(){svg.innerHTML="";base();const L=list(),q=key($("q").value||"");
  el("circle",{cx:U.x,cy:U.y,r:8,fill:"#2563eb",opacity:.4,class:"pulse"});el("circle",{cx:U.x,cy:U.y,r:6,fill:"#2563eb",stroke:"#fff","stroke-width":2});
- L.forEach(({t,inv})=>{const has=!q||(inv&&inv[0]>0),g=el("g",{style:"cursor:pointer",opacity:has?1:.5});g.onclick=e=>{e.stopPropagation();pick(t.id)};
-  const c=sel==t.id?"#dc2626":has?"var(--ok)":"#6b7280",lab=q&&inv&&inv[0]>0?"$"+inv[1]:t.e,w=lab.length>2?30:22;
-  el("rect",{x:t.x-w/2,y:t.y-24,width:w,height:18,rx:9,fill:c},g);el("path",{d:`M${t.x-4} ${t.y-7} L${t.x} ${t.y-1} L${t.x+4} ${t.y-7}Z`,fill:c},g);el("text",{x:t.x,y:t.y-11,"text-anchor":"middle","font-size":10,fill:sel!=t.id&&has?"#04261a":"#fff","font-weight":700},g,lab)});
+ L.forEach(({t,inv,st})=>{const g=el("g",{style:"cursor:pointer"});g.onclick=e=>{e.stopPropagation();pick(t.id)};
+  const on=sel==t.id,c=on?"var(--ac)":st=="ok"||st=="n"?"var(--ok)":"#6b7280",lab=st=="ok"?"$"+inv[1]:st=="ago"?"Agotado":st=="no"?"Próximamente":t.e,w=lab.length>2?lab.length*5.8+12:22;
+  el("rect",{x:t.x-w/2,y:t.y-24,width:w,height:18,rx:9,fill:c,stroke:on?"#fff":"none","stroke-width":1.5},g);el("path",{d:`M${t.x-4} ${t.y-7} L${t.x} ${t.y-1} L${t.x+4} ${t.y-7}Z`,fill:c},g);el("text",{x:t.x,y:t.y-11,"text-anchor":"middle","font-size":10,fill:!on&&(st=="ok"||st=="n")?"#04261a":"#fff","font-weight":700},g,lab)});
  setVB();sheet(L,q)}
+function stTag(st,inv,q){return st=="ok"?`<span class="tag">${inv[0]} disp. · $${inv[1]}</span>`:st=="ago"?'<span class="tag w">Sin stock · agotado</span>':st=="no"?`<span class="tag nt">Próximamente</span>`:""}
 function sheet(L,q){const sh=$("sheet");let h="";
- if(sel){const t=S.find(x=>x.id==sel),i=q&&t.s[q];h=`<div class="flex"><div><b style="font-size:16px">${t.e} ${t.n}</b><div class="mu">${dist(t)} m · ${Math.ceil(dist(t)/80)} min a pie · ${t.h} · ${t.o?'<span style="color:var(--okt)">Abierto</span>':'Cerrado'}</div></div><button onclick="sel=null;draw()">✕</button></div>
- <div style="margin-top:8px">${Object.entries(t.s).map(([k,v])=>`<div class="flex st"><span style="text-transform:capitalize">${k}</span><span>${v[0]>0?`<b>$${v[1]}</b> <span class="tag">${v[0]} disp.</span>`:'<span class="tag w">Agotado</span>'}</span></div>`).join("")}</div>
- <div class="row" style="margin-top:10px"><button class="pri" onclick="rsvp(${t.id},this)" ${rsv[t.id]?"disabled":""}>${rsv[t.id]?"Apartado ✓ (2 h)":"Apartar producto"}</button><button onclick="this.textContent='Abriendo ruta…'">Cómo llegar</button></div><div class="mu" style="margin-top:6px">Stock actualizado hace 4 min</div>`}
- else h=`<div class="mu" style="margin-bottom:4px">${q?`${L.length} tiendas con “${q}”, de la más cercana`:`${L.length} tiendas cerca de ti`}</div>`+L.slice(0,6).map(({t,inv})=>`<div class="st" onclick="pick(${t.id})" style="cursor:pointer"><div class="flex"><b>${t.e} ${t.n}</b><span class="mu">${dist(t)} m</span></div><div class="mu">${inv?(inv[0]>0?`${inv[0]} disp. · $${inv[1]}`:"Agotado"):t.h+(t.o?" · Abierto":" · Cerrado")}</div></div>`).join("")||'<div class="st">Sin resultados. Avisaremos a las tiendas de esta búsqueda.</div>';
+ if(sel){const t=S.find(x=>x.id==sel),inv=q?t.s[q]:null,st=!q?"n":!inv?"no":inv[0]>0?"ok":"ago";
+ const items=Object.entries(t.s).sort((a,b)=>(b[0]==q)-(a[0]==q));
+ h=`<div class="flex"><div><b style="font-size:16px">${t.e} ${t.n}</b><div class="mu">${dist(t)} m · ${Math.ceil(dist(t)/80)} min a pie · ${t.h} · ${t.o?'<span style="color:var(--okt)">Abierto</span>':'Cerrado'}</div></div><button onclick="sel=null;draw()" aria-label="Cerrar">✕</button></div>
+ ${q&&st!="ok"?`<div class="card" style="margin:10px 0 4px;padding:10px;border-color:var(--wn)"><b>Esta tienda no tiene ${q} ahora.</b><div class="mu">${nearOk(t,q)}</div></div>`:""}
+ <div style="margin-top:8px">${q&&!inv?`<div class="flex st"><span style="text-transform:capitalize"><b>${q}</b></span><span class="tag nt">Próximamente</span></div>`:""}${items.map(([k,v])=>`<div class="flex st"><span style="text-transform:capitalize">${k==q?`<b>${k}</b>`:k}</span><span>${v[0]>0?`<b>$${v[1]}</b> <span class="tag">${v[0]} disp.</span>`:'<span class="tag w">Agotado</span>'}</span></div>`).join("")}</div>
+ <div class="row" style="margin-top:10px"><button class="pri" onclick="rsvp(${t.id},this)" ${rsv[t.id]||(q&&st!="ok")?"disabled":""}>${rsv[t.id]?"Apartado ✓ (2 h)":"Apartar producto"}</button><button onclick="this.textContent='Abriendo ruta…'">Cómo llegar</button></div><div class="mu" style="margin-top:6px">Stock actualizado hace 4 min</div>`}
+ else if(q){const ok=L.filter(x=>x.st=="ok").length,no=L.length-ok;
+  h=`<div style="margin-bottom:4px"><b>${ok} con ${q}</b> <span class="mu">· ${no} sin stock · de la más cercana</span></div>`+L.map(({t,inv,st})=>`<div class="st" onclick="pick(${t.id})" style="cursor:pointer;${st=="ok"?"":"opacity:.75"}"><div class="flex"><b>${t.e} ${t.n}</b><span class="mu">${dist(t)} m</span></div><div class="flex" style="margin-top:3px">${stTag(st,inv,q)}<span class="mu">${t.o?"Abierto":"Cerrado"}</span></div></div>`).join("")||'<div class="st">Sin tiendas con este filtro.</div>'}
+ else h=`<div class="mu" style="margin-bottom:4px">${L.length} tiendas cerca de ti</div>`+L.map(({t})=>`<div class="st" onclick="pick(${t.id})" style="cursor:pointer"><div class="flex"><b>${t.e} ${t.n}</b><span class="mu">${dist(t)} m</span></div><div class="mu">${t.h} · ${t.o?"Abierto":"Cerrado"}</div></div>`).join("");
  sh.innerHTML=h}
+function nearOk(t,q){const o=S.filter(x=>x.id!=t.id&&x.s[q]&&x.s[q][0]>0).sort((a,b)=>Math.hypot(a.x-t.x,a.y-t.y)-Math.hypot(b.x-t.x,b.y-t.y))[0];return o?`La más cercana con ${q}: <a href="#" onclick="pick(${o.id});return false" style="color:var(--ac)">${o.e} ${o.n}</a> ($${o.s[q][1]}).`:`Ninguna tienda cercana tiene ${q} ahora.`}
 function pick(id){sel=id;const t=S.find(x=>x.id==id);draw();ctr(t.x,t.y-25)}
 function rsvp(id,b){rsv[id]=1;b.textContent="Apartado ✓ (2 h)";b.disabled=true}
 function setVB(){vb.w=Math.min(600,Math.max(120,vb.w));vb.h=vb.w*520/360;svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`)}
@@ -170,7 +269,7 @@ document.querySelectorAll("#chips button").forEach(b=>b.onclick=()=>{F=b.dataset
 
 /* ---------- promos / tarjeta ---------- */
 const promos=[{t:"2x1 en refrescos 600 ml",s:"La Esquina",v:"Hasta el domingo"},{t:"10% en lácteos",s:"Cremería La Vaca",v:"Hoy"},{t:"Puntos dobles en pan",s:"Panadería Trigal",v:"Este fin de semana"},{t:"Botana de marca X",s:"Patrocinio",v:"",ad:1}];
-function rPromos(){$("promos").innerHTML=promos.map(p=>`<div class="card promo ${p.ad?"ad":""}"><span class="tag ${p.ad?"w":""}">${p.ad?"Anuncio":p.s}</span><h3 style="margin:8px 0 2px">${p.t}</h3><div class="flex"><span class="mu">${p.v}</span>${p.ad?"":'<button onclick="this.textContent=\'Guardada ✓\'">Guardar</button>'}</div></div>`).join("");
+function rPromos(){$("promos").innerHTML=promos.map(p=>`<div class="card promo ${p.ad?"ad":""}"><span class="tag ${p.ad||p.m?"w":""}">${p.ad?"Anuncio":p.m?"Por caducar · "+p.s:p.s}</span><h3 style="margin:8px 0 2px">${esc(p.t)}</h3><div class="flex"><span class="mu">${p.v}</span>${p.ad?"":'<button onclick="this.textContent=\'Guardada ✓\'">Guardar</button>'}</div></div>`).join("");
  $("mypromos").innerHTML=promos.filter(p=>p.s=="La Esquina").map(p=>`<div class="card flex"><span>${p.t} <span class="mu">· ${p.v}</span></span><span class="tag">Activa</span></div>`).join("")}
 function addPromo(){const t=$("pt").value.trim();if(!t)return;promos.unshift({t,s:"La Esquina",v:$("pd").value?"Hasta "+$("pd").value:"Sin fecha"});rPromos();$("pt").value=""}
 let pts=1240,mv=[["22 sep","La Esquina","+45"],["20 sep","Abarrotes Lupita","+30"],["18 sep","Canje · Don Chuy","−200"]];
@@ -180,21 +279,112 @@ function canje(n,l){pts-=n;mv.unshift(["Hoy",l,"−"+n]);rCard()}
 function tap(){const b=$("tapb");b.textContent="Leyendo…";setTimeout(()=>{const g=10*(1+Math.floor(Math.random()*8));pts+=g;mv.unshift(["Hoy","La Esquina","+"+g]);b.textContent="📶 Simular lectura en mostrador";$("tapm").textContent="✓ Venta registrada: +"+g+" puntos";rCard()},900)}
 
 /* ---------- inventario / alertas / etc. ---------- */
-let inv=[{n:"Huevo caja 12",q:12,p:58,st:""},{n:"Leche 1 L",q:20,p:26,st:""},{n:"Coca-Cola 3 L",q:3,p:48,st:""},{n:"Frijol 1 kg",q:0,p:32,st:"Descontinuado"}];
-function rInv(){const f=$("fi").value.toLowerCase();$("inv").innerHTML=inv.map((p,i)=>p.n.toLowerCase().includes(f)?`<div class="st"><div class="flex"><div><b>${p.n}</b> ${p.st?`<span class="tag w">${p.st}</span>`:""}${p.q>0&&p.q<5?' <span class="tag w">Bajo</span>':""}<div class="mu">$${p.p}</div></div><div style="text-align:right"><b style="font-size:20px">${p.q}</b><div class="mu">en stock</div></div></div><div class="row" style="margin-top:8px"><button onclick="mvq(${i},1)">+ Entrada</button><button onclick="mvq(${i},-1)">− Salida</button><button onclick="disc(${i})">${p.st?"Reactivar":"Discontinuar"}</button></div></div>`:"").join("")}
-function mvq(i,d){inv[i].q=Math.max(0,inv[i].q+d);rInv()}function disc(i){inv[i].st=inv[i].st?"":"Descontinuado";rInv()}
+let inv=[{n:"Huevo caja 12",q:12,p:58,st:"",cad:addD(5)},{n:"Leche 1 L",q:20,p:26,st:"",cad:addD(2)},{n:"Pan de caja",q:6,p:38,st:"",cad:addD(1)},{n:"Yogur natural 1 kg",q:4,p:42,st:"",cad:addD(0)},{n:"Jamón 250 g",q:2,p:35,st:"",cad:addD(-1)},{n:"Coca-Cola 3 L",q:3,p:48,st:"",cad:addD(120)},{n:"Frijol 1 kg",q:0,p:32,st:"Descontinuado",cad:""}];
+/*TINV*/
+function rInv(){const f=$("fi").value.toLowerCase();$("inv").innerHTML=inv.map((p,i)=>p.n.toLowerCase().includes(f)?`<div class="st"><div class="flex"><div><b>${esc(p.n)}</b> ${p.st?`<span class="tag w">${p.st}</span>`:""}${p.q>0&&p.q<5?' <span class="tag w">Bajo</span>':""} ${cadTag(p)}<div class="mu">$${p.p}</div></div><div style="text-align:right"><b style="font-size:20px">${p.q}</b><div class="mu">en stock</div></div></div><div class="row" style="margin-top:8px"><button onclick="mvq(${i},1)">+ Entrada</button><button onclick="mvq(${i},-1)">− Salida</button><button onclick="disc(${i})">${p.st?"Reactivar":"Discontinuar"}</button></div></div>`:"").join("")}
+/*/TINV*/
+function mvq(i,d){inv[i].q=Math.max(0,inv[i].q+d);rInv();rMerma()}function disc(i){inv[i].st=inv[i].st?"":"Descontinuado";rInv()}
 function M(o){$("m").classList.toggle("show",!!o)}
 function foto(el){const f=el.files[0];if(f)$("th").innerHTML=`<img src="${URL.createObjectURL(f)}" alt="">`+el.outerHTML}
 function voz(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Tu navegador no soporta voz; escribe la cantidad.");return}const r=new R();r.lang="es-MX";r.onresult=e=>{$("mq").value=(e.results[0][0].transcript.match(/\d+/)||[""])[0]};r.start();$("mic").textContent="Escuchando…";r.onend=()=>$("mic").textContent="🎤 Decir cantidad"}
-function saveP(){const n=$("mn").value.trim();if(!n)return;inv.unshift({n,q:+$("mq").value||0,p:+$("mp").value||0,st:""});M(0);rInv();["mn","mq","mp"].forEach(k=>$(k).value="")}
+function saveP(){const n=$("mn").value.trim();if(!n)return;inv.unshift({n,q:+$("mq").value||0,p:+$("mp").value||0,st:"",cad:$("mc").value});M(0);rInv();rMerma();["mn","mq","mp","mc"].forEach(k=>$(k).value="")}
 const al=[{t:"❄️ Refrigerador 01: 8.2 °C durante 18 min",s:"Cadena de frío · máximo 7 °C",a:["Ya lo revisé","Ver historial"]},{t:"📷 Espacio vacío en anaquel de refrescos",s:"La cámara detectó un hueco. ¿Reponer?",a:["Reponer","Ignorar"]},{t:"📷 Movimiento inusual en pasillo 2",s:"Captura para tu revisión. Tú decides; el sistema no acusa a nadie.",a:["Revisar imagen","Descartar"]}];
-$("alerts").innerHTML=al.map(x=>`<div class="card flex"><div><b>${x.t}</b><div class="mu">${x.s}</div></div><div class="row fit">${x.a.map(b=>`<button class="fit" onclick="this.closest('.card').style.opacity=.4">${b}</button>`).join("")}</div></div>`).join("");
+$("alerts").innerHTML=al.map(x=>`<div class="card flex"><div><b>${x.t}</b><div class="mu">${x.s}</div></div><div class="row fit">${x.a.map(b=>`<button class="fit" onclick="${b=="Revisar imagen"?"tshow('cam')":"this.closest('.card').style.opacity=.4"}">${b}</button>`).join("")}</div></div>`).join("");
 $("resalert").innerHTML=al.slice(0,2).map(x=>`<div style="margin:4px 0">${x.t}</div>`).join("");
 $("lost").innerHTML=[["Coca 3 L",14],["Frijol 1 kg",9],["Tortillas de harina",6]].map(r=>`<div class="flex st"><span>${r[0]}</span><span class="tag w">${r[1]} búsquedas</span></div>`).join("");
 $("top").innerHTML=[["Huevo",90,100],["Leche",70,80],["Refrescos",60,75]].map(r=>`<div style="margin:8px 0">${r[0]}<div class="bar"><i style="width:${r[1]}%"></i></div><div class="bar" style="margin-top:3px"><i style="width:${r[2]}%;background:var(--mu)"></i></div></div>`).join("")+'<span class="mu">Verde: tu tienda · gris: la red</span>';
 const vt=[["Compensar puntos con un fondo común mensual",14,3],["Tope de 5% en promociones cruzadas",9,8]];
 function rVt(){$("votes").innerHTML=vt.map((v,i)=>`<div class="flex st"><span>${v[0]}<div class="mu">${v[1]} a favor · ${v[2]} en contra</div></span><div class="row fit"><button class="fit" onclick="vt[${i}][1]++;rVt()">A favor</button><button class="fit" onclick="vt[${i}][2]++;rVt()">En contra</button></div></div>`).join("")}
-$("q").value="huevo";rPromos();rCard();rInv();rVt();draw();tshow("resumen");role("v");
+
+/* ---------- merma y descuentos ---------- */
+let rec=0,lost=0,mlog=[];
+const sug=d=>d<=1?50:d<=3?30:15,np=p=>Math.round(p.p*(1-p.dsc/100)*2)/2;
+function promoText(p){return `−${p.dsc}% en ${p.n}: $${np(p)} (antes $${p.p})`}
+function rMerma(){const risk=[],exp=[];inv.forEach((p,i)=>{const d=dLeft(p.cad);if(p.q>0&&d!=null&&d<=7){if(d<0)exp.push([p,i,d]);else{if(p.dsc==null)p.dsc=sug(d);risk.push([p,i,d])}}});risk.sort((a,b)=>a[2]-b[2]);
+ const rv=risk.reduce((s,[p])=>s+p.q*p.p,0);$("mk1").textContent=money(rv);$("mk2").textContent=money(rec);$("mk3").textContent=money(lost);
+ $("mlist").innerHTML=risk.length?risk.map(([p,i,d])=>`<div class="st"><div class="flex"><div><b>${esc(p.n)}</b> <span class="tag w">Caduca ${when(d)}</span><div class="mu price">${p.q} pzas · <s>$${p.p}</s> → <b style="color:var(--tx)">$${np(p)}</b></div></div></div><div class="row" style="margin-top:8px"><select class="fit" style="width:auto" aria-label="Descuento para ${esc(p.n)}" onchange="setD(${i},this.value)">${[10,15,20,30,40,50].map(v=>`<option value="${v}" ${v==p.dsc?"selected":""}>−${v}%</option>`).join("")}</select>${p.pr?`<span class="tag fit">Publicado ✓</span><button class="fit" onclick="sold(${i})">Se vendió todo</button>`:`<button class="pri fit" onclick="pubD(${i})">Publicar descuento</button>`}</div></div>`).join(""):'<div class="mu">Nada por caducar esta semana. 👍</div>';
+ $("mexp").innerHTML=exp.length?exp.map(([p,i])=>`<div class="flex st"><div><b>${esc(p.n)}</b><div class="mu">${p.q} pzas · ${money(p.q*p.p)} · caducó el ${p.cad}</div></div><button class="fit" onclick="lose(${i})">Registrar merma</button></div>`).join(""):'<div class="mu">Sin productos caducados.</div>';
+ $("mlog").innerHTML=mlog.length?mlog.map(r=>`<div class="flex st"><span>${esc(r[1])}<div class="mu">${r[0]}</div></span><b style="color:${r[2]>0?"var(--okt)":"var(--rd)"}">${r[2]>0?"+":"−"}${money(Math.abs(r[2]))}</b></div>`).join(""):'<div class="mu">Aquí verás lo que recuperaste y lo que se perdió.</div>';
+ $("resmerma").innerHTML=risk.length||exp.length?`<div style="margin:4px 0;cursor:pointer" onclick="tshow('merma')">🕒 ${risk.length} por caducar (${money(rv)})${exp.length?` · ${exp.length} caducado${exp.length>1?"s":""}`:""} → ver descuentos</div>`:""}
+function setD(i,v){const p=inv[i];p.dsc=+v;if(p.pr){p.pr.t=promoText(p);rPromos()}rMerma()}
+function pubD(i){const p=inv[i],d=dLeft(p.cad);p.pr={t:promoText(p),s:"La Esquina",v:"Caduca "+when(d),m:1};promos.unshift(p.pr);rPromos();rMerma();toast("Descuento publicado: tus clientes ya lo ven en Promos.")}
+function sold(i){const p=inv[i],v=p.q*np(p);rec+=v;mlog.unshift([`Vendido con −${p.dsc}% · hoy`,p.n,v]);const k=promos.indexOf(p.pr);if(k>=0)promos.splice(k,1);p.pr=null;p.q=0;rPromos();rInv();rMerma();toast("Recuperaste "+money(v)+" que se habrían perdido.")}
+function lose(i){const p=inv[i],v=p.q*p.p;lost+=v;mlog.unshift(["Merma registrada · hoy",p.n,-v]);p.q=0;rInv();rMerma()}
+
+/* ---------- escanear estante con IA ---------- */
+let shots=[],stream=null,AI=null,AIimg=false,AImax=4,found=[];
+const CAT=[["Coca-Cola 600 ml",18],["Sabritas 45 g",20],["Galletas Marías 170 g",22],["Aceite 1 L",45],["Atún en lata",24],["Jabón Zote",28],["Arroz 1 kg",32],["Sopa de pasta",12],["Leche 1 L",26],["Pan de caja",38],["Huevo caja 12",58],["Frijol 1 kg",32]];
+function smode(){$("smode").textContent=AI?(AIimg?"La IA revisa tus fotos y tu texto.":"En esta vista la IA solo puede leer tu texto."):"Modo demo: sin IA conectada se simula el conteo de las fotos nítidas y se usa tu texto."}
+(async()=>{try{if(window.claude&&claude.use){const sm=await claude.use("sample");if(sm){AI=sm;const l=await sm.limits().catch(()=>null);AIimg=!!(l&&l.images);if(AIimg)AImax=l.images.maxCount||4}}}catch(e){}smode()})();
+function openScan(){$("scan").classList.add("show");smode();rShots()}
+function closeScan(){camOff();$("scan").classList.remove("show")}
+async function camOn(){if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast("Aquí no se puede abrir la cámara; usa Subir fotos.");return}
+ try{stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});$("vid").srcObject=stream;$("camwrap").hidden=false;$("camb").hidden=true}catch(e){toast("No se pudo abrir la cámara. Revisa el permiso o usa Subir fotos.")}}
+function camOff(){if(stream)stream.getTracks().forEach(t=>t.stop());stream=null;$("camwrap").hidden=true;$("camb").hidden=false}
+function snap(){const v=$("vid");if(!v.videoWidth)return;const c=document.createElement("canvas"),k=Math.min(1,1280/v.videoWidth);c.width=v.videoWidth*k;c.height=v.videoHeight*k;c.getContext("2d").drawImage(v,0,0,c.width,c.height);c.toBlob(b=>b&&addShot(b),"image/jpeg",.85)}
+function addFiles(inp){[...inp.files].forEach(addShot);inp.value=""}
+async function addShot(blob){if(shots.length>=6){toast("Máximo 6 fotos por escaneo.");return}const s={blob,url:URL.createObjectURL(blob),q:"…"};shots.push(s);rShots();s.q=await quality(blob);rShots()}
+function delShot(i){URL.revokeObjectURL(shots[i].url);shots.splice(i,1);rShots()}
+/* detecta fotos borrosas (varianza del laplaciano) u oscuras */
+async function quality(blob){try{const img=await createImageBitmap(blob),w=240,h=Math.max(1,Math.round(img.height*w/img.width)),c=document.createElement("canvas");c.width=w;c.height=h;const g=c.getContext("2d");g.drawImage(img,0,0,w,h);const d=g.getImageData(0,0,w,h).data,gr=new Float32Array(w*h);let sum=0;
+ for(let i=0;i<w*h;i++){gr[i]=.299*d[i*4]+.587*d[i*4+1]+.114*d[i*4+2];sum+=gr[i]}let m=0,m2=0,n=0;
+ for(let y=1;y<h-1;y++)for(let x=1;x<w-1;x++){const i=y*w+x,l=4*gr[i]-gr[i-1]-gr[i+1]-gr[i-w]-gr[i+w];m+=l;m2+=l*l;n++}
+ const v=m2/n-(m/n)**2;return sum/(w*h)<45?"oscura":v<60?"borrosa":"buena"}catch(e){return "buena"}}
+function rShots(){$("shots").innerHTML=shots.map((s,i)=>`<div class="shot"><img src="${s.url}" alt="Foto ${i+1} del estante"><span class="tag ${s.q=="buena"?"":"w"}">${s.q=="…"?"Revisando…":s.q=="buena"?"Nítida":s.q=="borrosa"?"Borrosa":"Oscura"}</span><button onclick="delShot(${i})" aria-label="Quitar foto ${i+1}">✕</button></div>`).join("");
+ const bad=shots.filter(s=>s.q=="borrosa"||s.q=="oscura").length;$("qmsg").innerHTML=bad?`<div class="lerr" style="color:var(--wn)">${bad==1?"Una foto salió borrosa u oscura":bad+" fotos salieron borrosas u oscuras"}. Escribe abajo lo que hay en ese estante o toma otra foto.</div>`:"";
+ $("snote").classList.toggle("need",!!bad&&!$("snote").value.trim())}
+$("snote").oninput=rShots;
+const cap1=t=>t.charAt(0).toUpperCase()+t.slice(1);
+function guessP(n){const w=n.toLowerCase().split(/\s+/)[0],f=CAT.find(c=>c[0].toLowerCase().startsWith(w));return f?f[1]:0}
+function parseNote(t){const out=[];t.split(/[,;\n]+/).forEach(x=>{x=x.trim();let m=x.match(/^(\d+)\s*(?:x\s+|de\s+)?(.+)$/i),q,n;if(m){q=+m[1];n=m[2]}else if(m=x.match(/^(.+?)\s*[:x]?\s*(\d+)$/i)){q=+m[2];n=m[1]}if(n&&n.trim())out.push({nombre:cap1(n.trim()),cantidad:q,precio_sugerido:guessP(n),confianza:"tu texto"})});return out}
+function demo(note){const res=parseNote(note),seen=new Set(res.map(r=>r.nombre.toLowerCase()));
+ shots.filter(s=>s.q=="buena").forEach((s,k)=>{const pool=[...CAT].sort(()=>Math.random()-.5).slice(0,2+(k%2));pool.forEach(([n,p])=>{if(seen.has(n.toLowerCase()))return;seen.add(n.toLowerCase());res.push({nombre:n,cantidad:3+Math.floor(Math.random()*12),precio_sugerido:p,confianza:Math.random()<.7?"alta":"baja"})})});
+ return {productos:res,comentario:shots.some(s=>s.q!="buena")?"Las fotos borrosas no se contaron; se usó tu texto.":""}}
+function prompt(note,k){return `Eres el asistente de inventario de una tienda de abarrotes en México. ${k?`Te paso ${k} foto(s) de los anaqueles de la tienda.`:"No hay fotos; usa solo la nota del tendero."} Identifica y cuenta cada producto visible (marca y presentación si se distinguen). Si una foto está borrosa u oscura, no inventes productos: usa la nota del tendero para esa parte y márcalos con confianza "baja" si dudas.
+Nota del tendero: """${note||"(sin nota)"}"""
+Responde SOLO con JSON con esta forma: {"productos":[{"nombre":"Coca-Cola 600 ml","cantidad":12,"precio_sugerido":18,"confianza":"alta"}],"comentario":"una frase corta en español sobre la calidad de las fotos"}. "confianza" es "alta", "media" o "baja". "precio_sugerido" es el precio típico de tiendita en pesos mexicanos, o 0 si no lo sabes.`}
+async function analyze(){const note=$("snote").value.trim();if(!shots.length&&!note){$("sstat").innerHTML='<div class="lerr">Agrega al menos una foto o escribe lo que hay en el estante.</div>';return}
+ if(shots.some(s=>s.q=="…")){$("sstat").innerHTML='<div class="mu">Espera un segundo, aún reviso la calidad de las fotos.</div>';return}
+ $("sgo").disabled=true;$("sres").innerHTML="";$("sstat").innerHTML='<span class="spin"></span>'+(AI?"Analizando tus fotos… puede tardar hasta un minuto.":"Analizando…");
+ let r=null,msg="";
+ if(AI){try{const o={modelTier:"default"},imgs=AIimg?shots.slice(0,AImax).map(s=>s.blob):[];if(imgs.length)o.images=imgs;r=await AI.json(prompt(note,imgs.length),o)}
+  catch(e){msg=e&&e.code=="not_granted"?"No se dio permiso para usar la IA, así que se muestra una simulación.":e&&e.code=="rate_limited"?"Hubo demasiadas solicitudes seguidas. Se muestra una simulación; intenta de nuevo en un momento.":"La IA no pudo responder esta vez. Se muestra una simulación."}}
+ if(!r){await new Promise(z=>setTimeout(z,1100));r=demo(note)}
+ $("sgo").disabled=false;
+ found=(r&&Array.isArray(r.productos)?r.productos:[]).map(x=>({n:String(x.nombre||"").trim().slice(0,60),q:Math.max(0,parseInt(x.cantidad)||0),p:Math.max(0,+x.precio_sugerido||0),c:String(x.confianza||"media")})).filter(x=>x.n);
+ $("sstat").innerHTML=(msg?`<div class="lerr" style="color:var(--wn)">${msg}</div>`:"")+(found.length?`<b>Encontré ${found.length} producto${found.length>1?"s":""}.</b> <span class="mu">Revisa nombres, cantidades y precios antes de guardar.${r.comentario?" "+esc(r.comentario):""}</span>`:'<div class="mu">No se reconoció ningún producto. Toma la foto más cerca y con luz, o escribe lo que hay en el estante.</div>');
+ $("sres").innerHTML=found.length?'<div class="srow hd mu"><span></span><span>Producto</span><span>Cant.</span><span>Precio</span></div>'+found.map((x,i)=>`<div class="srow ${x.c=="baja"?"low":""}"><input type="checkbox" checked aria-label="Incluir ${esc(x.n)}"><input class="sn" value="${esc(x.n)}" aria-label="Producto"><input class="sq" type="number" min="0" value="${x.q}" aria-label="Cantidad"><input class="sp" type="number" min="0" value="${x.p||""}" placeholder="$" aria-label="Precio"></div>${x.c=="baja"?'<div class="mu" style="color:var(--wn)">Confianza baja: confirma este producto.</div>':x.c=="tu texto"?'<div class="mu">Tomado de tu texto.</div>':""}`).join("")+'<button class="pri" style="width:100%;margin-top:12px;padding:11px" onclick="saveScan()">Agregar al inventario</button>':""}
+function saveScan(){let k=0;document.querySelectorAll("#sres .srow:not(.hd)").forEach(r=>{const i=r.querySelectorAll("input");if(!i[0].checked)return;const n=i[1].value.trim(),q=Math.max(0,parseInt(i[2].value)||0),p=Math.max(0,+i[3].value||0);if(!n)return;
+  const ex=inv.find(x=>x.n.toLowerCase()==n.toLowerCase());if(ex){ex.q+=q;if(p)ex.p=p}else inv.unshift({n,q,p,st:"",cad:""});k++});
+ if(!k){toast("Marca al menos un producto para agregarlo.");return}
+ shots.forEach(s=>URL.revokeObjectURL(s.url));shots=[];found=[];$("snote").value="";$("sres").innerHTML="";$("sstat").innerHTML="";closeScan();rInv();rMerma();tshow("inv");toast(k+" producto"+(k>1?"s agregados":" agregado")+" al inventario.")}
+
+/* ---------- cámaras simuladas ---------- */
+const CAMS=[{n:"Pasillo 1 · Abarrotes",p:1,sp:1,x:.2,d:1},{n:"Pasillo 2 · Refrescos",p:1,sp:.7,x:.7,d:-1},{n:"Caja y entrada",p:1,sp:.5,x:.4,d:1},{n:"Refrigeradores",p:0,sp:0,x:0,d:1}];
+CAMS.forEach(c=>{c.an=0;c.cap=0});
+const shelfHas=(i,r,k)=>!((k*7+i*5+r*3)%13==0||(k+i+r)%17==5),COL=["#e5484d","#f5a524","#3b82f6","#34d399"];
+$("camgrid").innerHTML=CAMS.map((c,i)=>`<div class="card"><canvas id="cam${i}" class="cam" width="320" height="180"></canvas><div class="flex" style="margin-top:8px"><b>${c.n}</b>${c.p?`<button onclick="trig(${i})">Simular robo</button>`:'<span class="tag">6.4 °C · normal</span>'}</div></div>`).join("");
+function trig(i){const c=CAMS[i];if(c.p&&!c.an){c.an=120;c.cap=0}}
+function camDraw(i,t){const c=CAMS[i],cv=$("cam"+i);if(!cv.offsetParent)return;
+ if(c.p){if(c.an>0)c.an--;else{c.x+=c.d*c.sp*.002;if(c.x>.85||c.x<.1)c.d*=-1}}
+ const g=cv.getContext("2d"),W=320,H=180;g.fillStyle="#12161b";g.fillRect(0,0,W,H);g.fillStyle="#1a2028";g.fillRect(0,132,W,48);let gap=0;
+ for(let r=0;r<2;r++){const y=28+r*52;g.fillStyle="#2b333d";g.fillRect(8,y+38,304,5);
+  for(let k=0;k<12;k++){const x=14+k*25;if(shelfHas(i,r,k)){g.fillStyle=COL[(k+r+i)%4];g.fillRect(x,y+8,18,30)}else{g.strokeStyle="#3b82f6";g.setLineDash([3,3]);g.strokeRect(x-1,y+7,20,31);g.setLineDash([]);if(!gap){gap=1;g.fillStyle="#3b82f6";g.font="8px sans-serif";g.fillText("hueco",x-2,y+4)}}}}
+ if(c.p){const an=c.an>0,x=c.x*W;g.fillStyle="#9aa4b2";g.beginPath();if(g.roundRect)g.roundRect(x-9,86,18,46,6);else g.rect(x-9,86,18,46);g.fill();g.beginPath();g.arc(x,76,8,0,7);g.fill();
+  if(an){g.strokeStyle="#9aa4b2";g.lineWidth=5;g.beginPath();g.moveTo(x+6,96);g.lineTo(x+20,64);g.stroke()}
+  const col=an?"#f97316":"#34d399";g.strokeStyle=col;g.lineWidth=an&&Math.floor(t/200)%2?3:1.5;g.strokeRect(x-15,64,an?42:30,72);g.lineWidth=1;g.fillStyle=col;g.font="9px sans-serif";g.fillText(an?"Movimiento anómalo 0.87":"persona 0.92",Math.min(x-15,W-115),60)}
+ g.fillStyle="#fff";g.font="10px monospace";g.fillText("CAM 0"+(i+1)+"  "+new Date().toLocaleTimeString(),8,14);
+ if(Math.floor(t/600)%2){g.fillStyle="#ef4444";g.beginPath();g.arc(W-14,11,4,0,7);g.fill()}
+ g.fillStyle="#34d399";g.font="8px sans-serif";g.fillText("procesado local · sin reconocimiento facial",8,H-6);
+ if(!c.p){g.fillStyle="#fff";g.font="bold 12px monospace";g.fillText("6.4 °C",W-62,H-8)}
+ if(c.an==60&&!c.cap){c.cap=1;caps.unshift({i,url:cv.toDataURL("image/jpeg",.8),time:new Date().toLocaleTimeString()});rCaps()}}
+/*TCAPS*/
+function rCaps(){$("capn").textContent=caps.length;$("caps").innerHTML=caps.length?caps.map((c,k)=>`<div class="card"><img src="${c.url}" alt="Captura de ${CAMS[c.i].n}" style="width:100%;border-radius:8px;display:block"><div style="margin-top:8px"><b>${CAMS[c.i].n}</b><div class="mu">${c.time} · movimiento inusual cerca del anaquel</div>${c.ev?'<span class="tag">Evidencia guardada</span>':'<span class="tag w">Pendiente de tu decisión</span>'}</div><div class="row" style="margin-top:8px"><button onclick="caps.splice(${k},1);rCaps()">Fue normal</button><button onclick="caps[${k}].ev=1;rCaps()">Guardar evidencia</button></div></div>`).join(""):'<div class="card mu">Sin capturas pendientes. El sistema no acusa a nadie: solo te muestra lo inusual.</div>';rTabs()}
+/*/TCAPS*/
+rCaps();setInterval(()=>trig(Math.floor(Math.random()*3)),18000);requestAnimationFrame(function L(t){CAMS.forEach((c,i)=>camDraw(i,t));requestAnimationFrame(L)});
+
+$("q").value="huevo";rPromos();rCard();rInv();rMerma();rVt();draw();tshow("resumen");lrole("v");
 function theme(x){const r=document.documentElement,dark=x?x=="dark":!(r.dataset.theme?r.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=dark?"dark":"light";$("thm").textContent=dark?"☀️":"🌙";try{localStorage.setItem("sb-theme",r.dataset.theme)}catch(e){}}
 let th;try{th=localStorage.getItem("sb-theme")}catch(e){}theme(th||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"));
+let ss;try{ss=localStorage.getItem("sb-sess")}catch(e){}if(ss=="v"||ss=="t"){lrole(ss);enter(ss)}
 </script></body></html>
