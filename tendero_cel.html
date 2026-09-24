@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SmartBarrio</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#FAFAFA;--card:#FFFFFF;--tx:#1E2022;--mu:#687076;--br:#E5E7EB;--ac:#2563EB;--ac2:#E8F0FE;--ok:#10B981;--okt:#047857;--ok2:#DDF5EC;--wn:#c2410c;--wn2:#fdebe0;--rd:#dc2626;--sh:0 1px 2px #0001,0 4px 14px #0000000d;--mapbg:#EEF0F3;--road:#FFFFFF;--blk:#E3E6EA;--park:#D5EFE3}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121214;--card:#1C1C21;--tx:#F3F4F6;--mu:#9CA3AF;--br:#2E2E35;--ac:#3B82F6;--ac2:#1A2A4A;--ok:#34D399;--okt:#34D399;--ok2:#12352A;--wn:#fb923c;--wn2:#3a2618;--rd:#f87171;--sh:none;--mapbg:#17171B;--road:#2A2A31;--blk:#1E1E24;--park:#17322A}}
+:root[data-theme="dark"]{--bg:#121214;--card:#1C1C21;--tx:#F3F4F6;--mu:#9CA3AF;--br:#2E2E35;--ac:#3B82F6;--ac2:#1A2A4A;--ok:#34D399;--okt:#34D399;--ok2:#12352A;--wn:#fb923c;--wn2:#3a2618;--rd:#f87171;--sh:none;--mapbg:#17171B;--road:#2A2A31;--blk:#1E1E24;--park:#17322A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font:inherit;cursor:pointer;border:1px solid var(--br);background:var(--card);color:var(--tx);padding:8px 13px;border-radius:10px;transition:.15s}
+button:hover{border-color:var(--ac)}.pri{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:600}
+input,select{font:inherit;width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--br);background:var(--card);color:var(--tx)}
+header{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--br);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+.logo{font-weight:700;font-size:17px;letter-spacing:-.3px}.logo i{font-style:normal;background:var(--ac);color:#fff;border-radius:8px;padding:2px 7px;margin-right:6px}
+.seg{display:flex;background:var(--bg);padding:3px;border-radius:11px;border:1px solid var(--br)}.seg button{border:0;background:none;padding:6px 14px}.seg button.on{background:var(--ac);color:#fff}
+.mu{color:var(--mu);font-size:12.5px}.tag{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:99px;background:var(--ok2);color:var(--okt);font-weight:600}.tag.w{background:var(--wn2);color:var(--wn)}
+h2{font-size:22px;margin:0 0 2px;letter-spacing:-.4px}h3{font-size:14.5px;margin:0 0 8px}
+.flex{display:flex;justify-content:space-between;gap:10px;align-items:center}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.row>*{flex:1 1 auto}.row .fit{flex:0 0 auto}
+.bar{height:7px;border-radius:9px;background:var(--br);overflow:hidden}.bar i{display:block;height:100%;background:var(--ac);border-radius:9px}
+/* ---------- PHONE ---------- */
+#V{display:flex;justify-content:center;padding:22px 12px}
+.phone{width:372px;max-width:100%;height:780px;max-height:calc(100vh - 100px);min-height:620px;background:var(--card);border:9px solid #111;border-radius:42px;position:relative;overflow:hidden;box-shadow:0 20px 50px #0004;display:flex;flex-direction:column}
+.phone:before{content:"";position:absolute;top:8px;left:50%;width:90px;height:22px;background:#111;border-radius:99px;transform:translateX(-50%);z-index:9}
+.sb{padding:12px 22px 0;display:flex;justify-content:space-between;font-size:12px;font-weight:600;height:34px}
+.scr{display:none;flex:1;position:relative;overflow:hidden;flex-direction:column}.scr.show{display:flex}
+.pad{padding:12px 16px;overflow:auto;flex:1}
+.tabs{display:flex;border-top:1px solid var(--br);background:var(--card);padding:6px 6px 12px}
+.tabs button{flex:1;border:0;background:none;font-size:11px;color:var(--mu);display:flex;flex-direction:column;gap:1px;align-items:center}.tabs button b{font-size:19px;font-weight:400}.tabs button.on{color:var(--ac);font-weight:700}
+.top{position:absolute;top:0;left:0;right:0;z-index:4;padding:8px 12px;background:linear-gradient(var(--card),#0000)}
+.chips{display:flex;gap:6px;margin-top:8px;overflow-x:auto}.chips button{white-space:nowrap;padding:5px 11px;border-radius:99px;font-size:12px;box-shadow:var(--sh)}.chips button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+#svg{width:100%;flex:1;background:var(--mapbg);touch-action:none;cursor:grab;display:block}
+.zoom{position:absolute;right:10px;top:118px;display:flex;flex-direction:column;gap:6px;z-index:4}.zoom button{width:36px;height:36px;padding:0;box-shadow:var(--sh);font-size:18px}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:20px 20px 0 0;box-shadow:0 -6px 24px #0002;max-height:52%;overflow:auto;padding:8px 14px 14px;z-index:5}
+.sheet:before{content:"";display:block;width:36px;height:4px;background:var(--br);border-radius:9px;margin:0 auto 8px}
+.st{padding:10px 0;border-bottom:1px solid var(--br)}.st:last-child{border:0}.st.sel{background:var(--ac2);margin:0 -14px;padding:10px 14px}
+.pulse{animation:p 1.8s infinite}@keyframes p{0%{r:8;opacity:.5}100%{r:24;opacity:0}}
+.card{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:14px;margin:10px 0;box-shadow:var(--sh)}
+.pcard{background:linear-gradient(135deg,#2563EB,#1e40af);color:#fff;border-radius:18px;padding:18px;position:relative;overflow:hidden}
+.pcard:after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:#fff1}
+.pcard .big{font-size:34px;font-weight:700;letter-spacing:-1px}
+.nfc{margin:14px 0;text-align:center}.nfc button{border-radius:99px;padding:10px 18px}
+.promo{border-left:4px solid var(--ac)}.promo.ad{border-left-color:var(--wn)}
+/* ---------- TENDERO ---------- */
+section{display:none}section.show{display:block}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}.kpi b{display:block;font-size:26px;letter-spacing:-.8px}
+table{width:100%;border-collapse:collapse}th{font-size:12px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.4px}th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--br)}.scroll{overflow-x:auto}
+.warn{border-color:var(--wn)}
+.bars{display:flex;align-items:flex-end;gap:10px;height:110px}.bars div{flex:1;text-align:center;font-size:11px;color:var(--mu)}.bars i{display:block;background:var(--ac);border-radius:6px 6px 0 0;margin-bottom:4px;opacity:.85}
+.modal{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:16px;z-index:50}.modal.show{display:flex}.modal .card{width:100%;max-width:440px}
+.thumb{height:110px;border:2px dashed var(--br);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--mu);overflow:hidden;cursor:pointer}.thumb img{width:100%;height:100%;object-fit:cover}
+#T{display:none;justify-content:center;padding:22px 12px}
+#tmain{flex:1;overflow:auto}#tmain section{padding:12px 16px}
+.grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}.kpi b{font-size:22px}
+.card.flex{flex-wrap:wrap}.tabs button{min-width:0}
+@media(max-width:480px){#V,#T{padding:0}.phone{width:100%;height:calc(100dvh - 58px);max-height:none;min-height:0;border:0;border-radius:0;box-shadow:none}.phone:before,.sb{display:none}}
+</style></head><body>
+<header><div class="logo"><i>SB</i>SmartBarrio</div><div class="row" style="flex:0 0 auto;flex-wrap:nowrap"><button id="thm" onclick="theme()" title="Cambiar tema" aria-label="Cambiar tema">🌙</button><div class="seg" id="role"><button class="on" data-r="v">Vecino</button><button data-r="t">Tendero</button></div></div></header>
+
+<!-- ================= VECINO (celular) ================= -->
+<div id="V"><div class="phone">
+<div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div>
+
+<div class="scr show" id="p-mapa">
+ <div class="top"><input id="q" placeholder="🔍  ¿Qué buscas? huevo, leche, pan…" oninput="draw()">
+ <div class="chips" id="chips"></div></div>
+ <div class="zoom"><button onclick="zm(.7)">＋</button><button onclick="zm(1.4)">−</button><button onclick="ctr(U.x,U.y)" title="Mi ubicación">◎</button></div>
+ <svg id="svg" viewBox="0 0 360 520"></svg>
+ <div class="sheet" id="sheet"></div>
+</div>
+
+<div class="scr" id="p-promos"><div class="pad"><h2>Promociones</h2><p class="mu">Ofertas de tiendas cerca de ti.</p><div id="promos"></div></div></div>
+
+<div class="scr" id="p-tarjeta"><div class="pad"><h2>Mi tarjeta</h2><p class="mu">Válida en todas las tiendas del barrio.</p>
+ <div class="pcard"><div class="flex"><span>SmartBarrio</span><span class="tag" style="background:#fff3;color:#fff">Vecino frecuente</span></div><div class="big" id="pts" style="margin-top:22px">1,240</div><div style="opacity:.8">puntos · ID 0482-7731</div></div>
+ <div class="nfc"><button onclick="tap()" id="tapb">📶 Simular lectura en mostrador</button><div class="mu" id="tapm" style="margin-top:6px">Acércala al lector; no necesitas smartphone.</div></div>
+ <div class="card"><h3>Canjear puntos</h3><div id="vales"></div></div>
+ <div class="card"><h3>Movimientos</h3><div id="movs"></div></div></div></div>
+
+<div class="tabs" id="vtabs"><button class="on" data-s="mapa"><b>🗺️</b>Mapa</button><button data-s="promos"><b>🏷️</b>Promos</button><button data-s="tarjeta"><b>💳</b>Mi tarjeta</button></div>
+</div></div>
+
+<!-- ================= TENDERO ================= -->
+<div id="T"><div class="phone"><div class="sb"><span>9:41</span><span>5G ▮▮▮</span></div><main id="tmain">
+<section id="t-resumen"><h2>Resumen del mes</h2><p class="mu">Datos de ejemplo</p>
+<div class="grid" style="margin-top:12px"><div class="card kpi"><span class="mu">Ventas por la plataforma</span><b>$18,400</b><span class="tag">+12%</span></div><div class="card kpi"><span class="mu">Lo que pagas (3%)</span><b>$552</b></div><div class="card kpi"><span class="mu">Merma evitada</span><b>$1,150</b></div><div class="card kpi"><span class="mu">Ventas perdidas (aprox.)</span><b>$250</b></div></div>
+<div class="grid"><div class="card"><h3>Ventas por la plataforma · semana</h3><div class="bars"><div><i style="height:40%"></i>L</div><div><i style="height:55%"></i>M</div><div><i style="height:48%"></i>M</div><div><i style="height:70%"></i>J</div><div><i style="height:90%"></i>V</div><div><i style="height:100%"></i>S</div><div><i style="height:62%"></i>D</div></div></div>
+<div class="card warn"><h3>⚠️ Requiere tu atención</h3><div id="resalert"></div></div></div>
+<div class="card">Tu balance: ganaste <b>$1,598</b> más de lo que pagaste. <span class="tag">Siempre ganas más de lo que pagas</span></div></section>
+
+<section id="t-inv"><div class="flex" style="flex-wrap:wrap"><div><h2>Inventario</h2><p class="mu">Entradas, salidas y cambios de cada producto.</p></div><div class="row fit"><button class="pri" onclick="M(1)">+ Agregar producto</button><button onclick="alert('Demo: aquí subirías tu CSV/Excel')">Importar mi base</button></div></div>
+<input id="fi" placeholder="Filtrar producto…" oninput="rInv()" style="margin-top:8px"><div class="card" id="inv"></div></section>
+
+<section id="t-alertas"><h2>Alertas</h2><p class="mu">La cámara solo captura la imagen; tú decides qué hacer.</p><div id="alerts"></div></section>
+
+<section id="t-tend"><h2>Lo que busca el barrio</h2><p class="mu">Resumen semanal.</p>
+<div class="grid" style="margin-top:12px"><div class="card"><h3>Buscaron y no tenías</h3><div id="lost"></div></div><div class="card"><h3>Más vendidos (tú vs. red)</h3><div id="top"></div></div></div>
+<div class="card"><h3>💡 Compra en conjunto</h3><p>Huevo: 3 tiendas cercanas necesitan ~40 cajas/semana. Comprando juntas, el distribuidor baja ~8%.</p><button class="pri" onclick="this.textContent='Participas ✓'">Quiero participar</button> <span class="mu">Opcional; verás el margen antes de aceptar.</span></div></section>
+
+<section id="t-com"><h2>Comunidad y puntos</h2><p class="mu">Las reglas las aprueban las tiendas.</p>
+<div class="grid" style="margin-top:12px"><div class="card kpi"><span class="mu">Fondo común</span><b>$6,200</b></div><div class="card kpi"><span class="mu">Puntos emitidos</span><b>3,100</b></div><div class="card kpi"><span class="mu">Puntos canjeados aquí</span><b>2,650</b></div></div>
+<div class="card"><h3>Propuestas para votar</h3><div id="votes"></div></div></section>
+
+<section id="t-promo"><h2>Crear promoción</h2>
+<div class="card"><div class="row"><input id="pt" placeholder="Título (ej. 2x1 en refrescos)"><input id="pd" type="date"></div><div class="row" style="margin-top:8px"><select id="pk"><option>Descuento %</option><option>2x1</option><option>Puntos dobles</option></select><button class="pri fit" onclick="addPromo()">Publicar</button></div><p class="mu">Se muestra a vecinos cercanos (mira la pestaña Promos del celular).</p></div><div id="mypromos"></div></section>
+</main><div class="tabs" id="ttabs"></div></div></div>
+
+<div class="modal" id="m"><div class="card"><h3>Nuevo producto</h3>
+<label class="thumb" id="th">📷 Tomar foto<input type="file" accept="image/*" capture="environment" hidden onchange="foto(this)"></label>
+<input id="mn" placeholder="Nombre del producto" style="margin-top:8px">
+<div class="row" style="margin-top:8px"><input id="mq" type="number" min="0" placeholder="Cantidad"><button class="fit" id="mic" onclick="voz()">🎤 Decir cantidad</button></div>
+<input id="mp" type="number" placeholder="Precio $" style="margin-top:8px">
+<div class="row" style="margin-top:12px"><button onclick="M(0)">Cancelar</button><button class="pri" onclick="saveP()">Guardar</button></div></div></div>
+
+<script>
+const $=id=>document.getElementById(id);
+/* ---------- navegación ---------- */
+const NAV=[["resumen","📊","Resumen"],["inv","📦","Stock"],["alertas","🔔","Alertas"],["tend","📈","Datos"],["com","🤝","Barrio"],["promo","🏷️","Promos"]];
+function role(r){$("V").style.display=r=="v"?"flex":"none";$("T").style.display=r=="t"?"flex":"none";document.querySelectorAll("#role button").forEach(b=>b.classList.toggle("on",b.dataset.r==r))}
+function tshow(s){document.querySelectorAll("#tmain section").forEach(e=>e.classList.toggle("show",e.id=="t-"+s));$("tmain").scrollTop=0;$("ttabs").innerHTML=NAV.map(([k,i,l])=>`<button class="${k==s?"on":""}" onclick="tshow('${k}')"><b>${i}</b>${l}</button>`).join("")}
+document.querySelectorAll("#role button").forEach(b=>b.onclick=()=>role(b.dataset.r));
+document.querySelectorAll("#vtabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#vtabs button").forEach(x=>x.classList.toggle("on",x==b));document.querySelectorAll(".scr").forEach(e=>e.classList.toggle("show",e.id=="p-"+b.dataset.s))});
+
+/* ---------- MAPA simulado ---------- */
+const U={x:180,y:300},NS="http://www.w3.org/2000/svg";
+const S=[
+{id:1,n:"La Esquina",e:"🏪",x:150,y:255,h:"7–22 h",o:1,s:{huevo:[12,58],leche:[20,26],pan:[15,8]}},
+{id:2,n:"Abarrotes Lupita",e:"🛒",x:255,y:215,h:"8–21 h",o:1,s:{huevo:[0,0],leche:[8,27],coca:[6,48],tortilla:[10,22]}},
+{id:3,n:"Minisúper Don Chuy",e:"🏬",x:300,y:365,h:"6–23 h",o:1,s:{huevo:[5,60],coca:[14,47],pan:[9,9]}},
+{id:4,n:"Tienda Doña Mary",e:"🏪",x:70,y:330,h:"8–20 h",o:1,s:{huevo:[7,57],frijol:[12,32],tortilla:[20,20]}},
+{id:5,n:"Abarrotes El Sol",e:"🛒",x:115,y:435,h:"7–19 h",o:0,s:{leche:[10,26],coca:[8,49],huevo:[9,59]}},
+{id:6,n:"Cremería La Vaca",e:"🧀",x:230,y:130,h:"7–20 h",o:1,s:{leche:[30,25],huevo:[15,56]}},
+{id:7,n:"Panadería Trigal",e:"🥖",x:60,y:170,h:"6–21 h",o:1,s:{pan:[40,7],tortilla:[0,0]}},
+{id:8,n:"Súper Familiar",e:"🏬",x:305,y:120,h:"8–22 h",o:1,s:{huevo:[22,55],leche:[18,26],coca:[20,46],frijol:[15,30]}},
+{id:9,n:"Tienda Los Pinos",e:"🏪",x:210,y:450,h:"9–18 h",o:0,s:{frijol:[6,33],pan:[5,9]}},
+{id:10,n:"Miscelánea Ramírez",e:"🛒",x:170,y:365,h:"7–21 h",o:1,s:{coca:[0,0],huevo:[3,61],leche:[6,28]}}];
+let vb={x:0,y:0,w:360,h:520},F="todos",sel=null,rsv={};
+const svg=$("svg");
+function el(t,a,p=svg,tx){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(tx)e.textContent=tx;p.appendChild(e);return e}
+function dist(t){return Math.round(Math.hypot(t.x-U.x,t.y-U.y)*2.6/10)*10}
+function key(q){q=q.toLowerCase();return Object.keys({huevo:1,leche:1,coca:1,pan:1,tortilla:1,frijol:1}).find(k=>q.includes(k))}
+function base(){el("rect",{x:-200,y:-200,width:800,height:900,fill:"var(--blk)"});
+ el("rect",{x:105,y:20,width:80,height:60,rx:6,fill:"var(--park)"});el("text",{x:145,y:53,"text-anchor":"middle","font-size":9,fill:"var(--mu)"},svg,"Parque");
+ [[-200,90,800,16],[-200,205,800,14],[-200,320,800,18],[-200,410,800,14],[85,-200,14,900],[195,-200,16,900],[275,-200,14,900]].forEach(r=>el("rect",{x:r[0],y:r[1],width:r[2],height:r[3],fill:"var(--road)"}));
+ el("path",{d:"M-20 520 L380 20",stroke:"var(--road)","stroke-width":12,fill:"none"});
+ [["Av. Madero",20,101],["Calle Hidalgo",20,217],["Calle Morelos",20,335],["Calle Juárez",20,423]].forEach(t=>el("text",{x:t[1],y:t[2],"font-size":7.5,fill:"var(--mu)"},svg,t[0]))}
+function list(){const q=key($("q").value||"");return S.filter(t=>(F!="abierto"||t.o)&&(!q||(t.s[q]&&(F!="stock"||t.s[q][0]>0)))).map(t=>({t,q,inv:q&&t.s[q]})).sort((a,b)=>(dist(a.t)-dist(b.t)))}
+function draw(){svg.innerHTML="";base();const L=list(),q=key($("q").value||"");
+ el("circle",{cx:U.x,cy:U.y,r:8,fill:"#2563eb",opacity:.4,class:"pulse"});el("circle",{cx:U.x,cy:U.y,r:6,fill:"#2563eb",stroke:"#fff","stroke-width":2});
+ L.forEach(({t,inv})=>{const has=!q||(inv&&inv[0]>0),g=el("g",{style:"cursor:pointer",opacity:has?1:.5});g.onclick=e=>{e.stopPropagation();pick(t.id)};
+  const c=sel==t.id?"#dc2626":has?"var(--ok)":"#6b7280",lab=q&&inv&&inv[0]>0?"$"+inv[1]:t.e,w=lab.length>2?30:22;
+  el("rect",{x:t.x-w/2,y:t.y-24,width:w,height:18,rx:9,fill:c},g);el("path",{d:`M${t.x-4} ${t.y-7} L${t.x} ${t.y-1} L${t.x+4} ${t.y-7}Z`,fill:c},g);el("text",{x:t.x,y:t.y-11,"text-anchor":"middle","font-size":10,fill:sel!=t.id&&has?"#04261a":"#fff","font-weight":700},g,lab)});
+ setVB();sheet(L,q)}
+function sheet(L,q){const sh=$("sheet");let h="";
+ if(sel){const t=S.find(x=>x.id==sel),i=q&&t.s[q];h=`<div class="flex"><div><b style="font-size:16px">${t.e} ${t.n}</b><div class="mu">${dist(t)} m · ${Math.ceil(dist(t)/80)} min a pie · ${t.h} · ${t.o?'<span style="color:var(--okt)">Abierto</span>':'Cerrado'}</div></div><button onclick="sel=null;draw()">✕</button></div>
+ <div style="margin-top:8px">${Object.entries(t.s).map(([k,v])=>`<div class="flex st"><span style="text-transform:capitalize">${k}</span><span>${v[0]>0?`<b>$${v[1]}</b> <span class="tag">${v[0]} disp.</span>`:'<span class="tag w">Agotado</span>'}</span></div>`).join("")}</div>
+ <div class="row" style="margin-top:10px"><button class="pri" onclick="rsvp(${t.id},this)" ${rsv[t.id]?"disabled":""}>${rsv[t.id]?"Apartado ✓ (2 h)":"Apartar producto"}</button><button onclick="this.textContent='Abriendo ruta…'">Cómo llegar</button></div><div class="mu" style="margin-top:6px">Stock actualizado hace 4 min</div>`}
+ else h=`<div class="mu" style="margin-bottom:4px">${q?`${L.length} tiendas con “${q}”, de la más cercana`:`${L.length} tiendas cerca de ti`}</div>`+L.slice(0,6).map(({t,inv})=>`<div class="st" onclick="pick(${t.id})" style="cursor:pointer"><div class="flex"><b>${t.e} ${t.n}</b><span class="mu">${dist(t)} m</span></div><div class="mu">${inv?(inv[0]>0?`${inv[0]} disp. · $${inv[1]}`:"Agotado"):t.h+(t.o?" · Abierto":" · Cerrado")}</div></div>`).join("")||'<div class="st">Sin resultados. Avisaremos a las tiendas de esta búsqueda.</div>';
+ sh.innerHTML=h}
+function pick(id){sel=id;const t=S.find(x=>x.id==id);draw();ctr(t.x,t.y-25)}
+function rsvp(id,b){rsv[id]=1;b.textContent="Apartado ✓ (2 h)";b.disabled=true}
+function setVB(){vb.w=Math.min(600,Math.max(120,vb.w));vb.h=vb.w*520/360;svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`)}
+function zm(f){const cx=vb.x+vb.w/2,cy=vb.y+vb.h/2;vb.w*=f;setVB();vb.x=cx-vb.w/2;vb.y=cy-vb.h/2;setVB()}
+function ctr(x,y){vb.x=x-vb.w/2;vb.y=y-vb.h/2-30;setVB()}
+let dr=null;svg.onpointerdown=e=>{dr={x:e.clientX,y:e.clientY}};window.onpointerup=()=>dr=null;
+svg.onpointermove=e=>{if(!dr)return;const k=vb.w/svg.clientWidth;vb.x-=(e.clientX-dr.x)*k;vb.y-=(e.clientY-dr.y)*k;dr={x:e.clientX,y:e.clientY};setVB()};
+svg.onwheel=e=>{e.preventDefault();zm(e.deltaY>0?1.1:.9)};
+$("chips").innerHTML=[["todos","Todas"],["abierto","Abierto ahora"],["stock","Con stock"]].map(c=>`<button data-f="${c[0]}" class="${c[0]=="todos"?"on":""}">${c[1]}</button>`).join("");
+document.querySelectorAll("#chips button").forEach(b=>b.onclick=()=>{F=b.dataset.f;document.querySelectorAll("#chips button").forEach(x=>x.classList.toggle("on",x==b));draw()});
+
+/* ---------- promos / tarjeta ---------- */
+const promos=[{t:"2x1 en refrescos 600 ml",s:"La Esquina",v:"Hasta el domingo"},{t:"10% en lácteos",s:"Cremería La Vaca",v:"Hoy"},{t:"Puntos dobles en pan",s:"Panadería Trigal",v:"Este fin de semana"},{t:"Botana de marca X",s:"Patrocinio",v:"",ad:1}];
+function rPromos(){$("promos").innerHTML=promos.map(p=>`<div class="card promo ${p.ad?"ad":""}"><span class="tag ${p.ad?"w":""}">${p.ad?"Anuncio":p.s}</span><h3 style="margin:8px 0 2px">${p.t}</h3><div class="flex"><span class="mu">${p.v}</span>${p.ad?"":'<button onclick="this.textContent=\'Guardada ✓\'">Guardar</button>'}</div></div>`).join("");
+ $("mypromos").innerHTML=promos.filter(p=>p.s=="La Esquina").map(p=>`<div class="card flex"><span>${p.t} <span class="mu">· ${p.v}</span></span><span class="tag">Activa</span></div>`).join("")}
+function addPromo(){const t=$("pt").value.trim();if(!t)return;promos.unshift({t,s:"La Esquina",v:$("pd").value?"Hasta "+$("pd").value:"Sin fecha"});rPromos();$("pt").value=""}
+let pts=1240,mv=[["22 sep","La Esquina","+45"],["20 sep","Abarrotes Lupita","+30"],["18 sep","Canje · Don Chuy","−200"]];
+function rCard(){$("pts").textContent=pts.toLocaleString();$("vales").innerHTML=[[500,"Vale $25"],[1000,"Vale $50"],[2000,"Vale $100"]].map(v=>`<div class="flex st"><div>${v[1]}<div class="bar" style="width:120px;margin-top:4px"><i style="width:${Math.min(100,pts/v[0]*100)}%"></i></div></div><button ${pts<v[0]?"disabled":""} onclick="canje(${v[0]},'${v[1]}')">${v[0]} pts</button></div>`).join("");
+ $("movs").innerHTML=mv.map(r=>`<div class="flex st"><span>${r[1]}<div class="mu">${r[0]}</div></span><b style="color:${r[2][0]=="+"?"var(--okt)":"var(--rd)"}">${r[2]}</b></div>`).join("")}
+function canje(n,l){pts-=n;mv.unshift(["Hoy",l,"−"+n]);rCard()}
+function tap(){const b=$("tapb");b.textContent="Leyendo…";setTimeout(()=>{const g=10*(1+Math.floor(Math.random()*8));pts+=g;mv.unshift(["Hoy","La Esquina","+"+g]);b.textContent="📶 Simular lectura en mostrador";$("tapm").textContent="✓ Venta registrada: +"+g+" puntos";rCard()},900)}
+
+/* ---------- inventario / alertas / etc. ---------- */
+let inv=[{n:"Huevo caja 12",q:12,p:58,st:""},{n:"Leche 1 L",q:20,p:26,st:""},{n:"Coca-Cola 3 L",q:3,p:48,st:""},{n:"Frijol 1 kg",q:0,p:32,st:"Descontinuado"}];
+function rInv(){const f=$("fi").value.toLowerCase();$("inv").innerHTML=inv.map((p,i)=>p.n.toLowerCase().includes(f)?`<div class="st"><div class="flex"><div><b>${p.n}</b> ${p.st?`<span class="tag w">${p.st}</span>`:""}${p.q>0&&p.q<5?' <span class="tag w">Bajo</span>':""}<div class="mu">$${p.p}</div></div><div style="text-align:right"><b style="font-size:20px">${p.q}</b><div class="mu">en stock</div></div></div><div class="row" style="margin-top:8px"><button onclick="mvq(${i},1)">+ Entrada</button><button onclick="mvq(${i},-1)">− Salida</button><button onclick="disc(${i})">${p.st?"Reactivar":"Discontinuar"}</button></div></div>`:"").join("")}
+function mvq(i,d){inv[i].q=Math.max(0,inv[i].q+d);rInv()}function disc(i){inv[i].st=inv[i].st?"":"Descontinuado";rInv()}
+function M(o){$("m").classList.toggle("show",!!o)}
+function foto(el){const f=el.files[0];if(f)$("th").innerHTML=`<img src="${URL.createObjectURL(f)}" alt="">`+el.outerHTML}
+function voz(){const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Tu navegador no soporta voz; escribe la cantidad.");return}const r=new R();r.lang="es-MX";r.onresult=e=>{$("mq").value=(e.results[0][0].transcript.match(/\d+/)||[""])[0]};r.start();$("mic").textContent="Escuchando…";r.onend=()=>$("mic").textContent="🎤 Decir cantidad"}
+function saveP(){const n=$("mn").value.trim();if(!n)return;inv.unshift({n,q:+$("mq").value||0,p:+$("mp").value||0,st:""});M(0);rInv();["mn","mq","mp"].forEach(k=>$(k).value="")}
+const al=[{t:"❄️ Refrigerador 01: 8.2 °C durante 18 min",s:"Cadena de frío · máximo 7 °C",a:["Ya lo revisé","Ver historial"]},{t:"📷 Espacio vacío en anaquel de refrescos",s:"La cámara detectó un hueco. ¿Reponer?",a:["Reponer","Ignorar"]},{t:"📷 Movimiento inusual en pasillo 2",s:"Captura para tu revisión. Tú decides; el sistema no acusa a nadie.",a:["Revisar imagen","Descartar"]}];
+$("alerts").innerHTML=al.map(x=>`<div class="card flex"><div><b>${x.t}</b><div class="mu">${x.s}</div></div><div class="row fit">${x.a.map(b=>`<button class="fit" onclick="this.closest('.card').style.opacity=.4">${b}</button>`).join("")}</div></div>`).join("");
+$("resalert").innerHTML=al.slice(0,2).map(x=>`<div style="margin:4px 0">${x.t}</div>`).join("");
+$("lost").innerHTML=[["Coca 3 L",14],["Frijol 1 kg",9],["Tortillas de harina",6]].map(r=>`<div class="flex st"><span>${r[0]}</span><span class="tag w">${r[1]} búsquedas</span></div>`).join("");
+$("top").innerHTML=[["Huevo",90,100],["Leche",70,80],["Refrescos",60,75]].map(r=>`<div style="margin:8px 0">${r[0]}<div class="bar"><i style="width:${r[1]}%"></i></div><div class="bar" style="margin-top:3px"><i style="width:${r[2]}%;background:var(--mu)"></i></div></div>`).join("")+'<span class="mu">Verde: tu tienda · gris: la red</span>';
+const vt=[["Compensar puntos con un fondo común mensual",14,3],["Tope de 5% en promociones cruzadas",9,8]];
+function rVt(){$("votes").innerHTML=vt.map((v,i)=>`<div class="flex st"><span>${v[0]}<div class="mu">${v[1]} a favor · ${v[2]} en contra</div></span><div class="row fit"><button class="fit" onclick="vt[${i}][1]++;rVt()">A favor</button><button class="fit" onclick="vt[${i}][2]++;rVt()">En contra</button></div></div>`).join("")}
+$("q").value="huevo";rPromos();rCard();rInv();rVt();draw();tshow("resumen");role("v");
+function theme(x){const r=document.documentElement,dark=x?x=="dark":!(r.dataset.theme?r.dataset.theme=="dark":matchMedia("(prefers-color-scheme:dark)").matches);r.dataset.theme=dark?"dark":"light";$("thm").textContent=dark?"☀️":"🌙";try{localStorage.setItem("sb-theme",r.dataset.theme)}catch(e){}}
+let th;try{th=localStorage.getItem("sb-theme")}catch(e){}theme(th||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"));
+</script></body></html>
