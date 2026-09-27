@@ -24,16 +24,4 @@ many local/small business to be part of it, they will all be on the app.
 Now as the business owner side we offer you, a inventory management platform, we also give you some cameras that can scan suspicious behavior in 
 costumers, this to make better security.
 
----
-
-## Key Technological Pillars
-
-Our implementation addresses core focus areas outlined in the challenge[cite: 1]:
-
--  **Artificial Intelligence & Personalization:** Customer segmentation, demand/offer personalization, and consumption tracking[cite: 1].
--  **Smart Automation & Control (Domotics):** Automated device control, energy monitoring, and environmental adaptability[cite: 1].
--  **Edge Computing:** Low-latency, local data processing inside the business establishment[cite: 1].
--  **IoT & Sensor Networks:** Real-time monitoring (e.g., environmental parameters, cold chain integrity, access control)[cite: 1].
-
----
 
