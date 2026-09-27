@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>SmartBarrio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- ================= INICIO DE SESIÓN ================= -->
+  <div id="login">
+    <div class="lcard">
+      <button class="lthm" onclick="theme()" title="Cambiar tema" aria-label="Cambiar tema">◐</button>
+      <div class="logo" style="font-size:20px"><i>SB</i>SmartBarrio</div>
+      <h2 style="margin-top:18px">Iniciar sesión</h2>
+      <p class="mu" style="margin:0">¿Cómo quieres entrar hoy?</p>
+      <div class="rolepick" id="lrole">
+        <button type="button" class="on" data-r="v"><b>🧑</b>Cliente<span class="mu">Busco productos</span></button>
+        <button type="button" data-r="t"><b>🏪</b>Tendero<span class="mu">Administro mi tienda</span></button>
+      </div>
+      <label class="f" for="lu" id="lul">Teléfono o número de tarjeta</label>
+      <input id="lu" autocomplete="username">
+      <label class="f" for="lp" id="lpl">PIN</label>
+      <input id="lp" type="password" autocomplete="current-password">
+      <div class="lerr" id="lerr" role="alert"></div>
+      <button class="pri" style="width:100%;padding:12px" onclick="login()" id="lgo">Entrar como cliente</button>
+      <button style="width:100%;margin-top:8px" onclick="login(1)">Usar cuenta de prueba</button>
+      <p class="mu" style="text-align:center;margin:14px 0 0">Prototipo: tus datos no salen de este navegador.</p>
+    </div>
+  </div>
+
+  <header>
+    <div class="logo"><i>SB</i>SmartBarrio</div>
+    <div class="row" style="flex:0 0 auto;flex-wrap:nowrap">
+      <button id="thm" onclick="theme()" title="Cambiar tema" aria-label="Cambiar tema">🌙</button>
+      <span class="who" id="whon"></span>
+      <button onclick="logout()">Salir</button>
+    </div>
+  </header>
+
+  <!-- ================= VECINO (celular) ================= -->
+  <div id="V">
+    <div class="phone">
+      <div class="sb">
+        <span>9:41</span>
+        <span>5G ▮▮▮</span>
+      </div>
+
+      <div class="scr show" id="p-mapa">
+        <div class="top">
+          <input id="q" placeholder="🔍  ¿Qué buscas? huevo, leche, pan…" oninput="draw()">
+          <div class="chips" id="chips"></div>
+        </div>
+        <div class="zoom">
+          <button onclick="zm(.7)">＋</button>
+          <button onclick="zm(1.4)">−</button>
+          <button onclick="ctr(U.x,U.y)" title="Mi ubicación">◎</button>
+        </div>
+        <svg id="svg" viewBox="0 0 360 520"></svg>
+        <div class="sheet" id="sheet"></div>
+      </div>
+
+      <div class="scr" id="p-promos">
+        <div class="pad">
+          <h2>Promociones</h2>
+          <p class="mu">Ofertas de tiendas cerca de ti.</p>
+          <div id="promos"></div>
+        </div>
+      </div>
+
+      <div class="scr" id="p-tarjeta">
+        <div class="pad">
+          <h2>Mi tarjeta</h2>
+          <p class="mu">Válida en todas las tiendas del barrio.</p>
+          <div class="pcard">
+            <div class="flex">
+              <span>SmartBarrio</span>
+              <span class="tag" style="background:#fff3;color:#fff">Vecino frecuente</span>
+            </div>
+            <div class="big" id="pts" style="margin-top:22px">1,240</div>
+            <div style="opacity:.8">puntos · ID 0482-7731</div>
+          </div>
+          <div class="nfc">
+            <button onclick="tap()" id="tapb">📶 Simular lectura en mostrador</button>
+            <div class="mu" id="tapm" style="margin-top:6px">Acércala al lector; no necesitas smartphone.</div>
+          </div>
+          <div class="card">
+            <h3>Canjear puntos</h3>
+            <div id="vales"></div>
+          </div>
+          <div class="card">
+            <h3>Movimientos</h3>
+            <div id="movs"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabs" id="vtabs">
+        <button class="on" data-s="mapa"><b>🗺️</b>Mapa</button>
+        <button data-s="promos"><b>🏷️</b>Promos</button>
+        <button data-s="tarjeta"><b>💳</b>Mi tarjeta</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TENDERO ================= -->
+  <div id="T">
+    <div>
+      <div class="side">
+        <div class="av">LE</div>
+        <div>
+          <b>La Esquina</b>
+          <div class="mu">Tendero · Morelia</div>
+        </div>
+      </div>
+      <div id="nav"></div>
+    </div>
+    <main>
+      <section id="t-resumen">
+        <h2>Resumen del mes</h2>
+        <p class="mu">Datos de ejemplo</p>
+        <div class="grid" style="margin-top:12px">
+          <div class="card kpi"><span class="mu">Ventas por la plataforma</span><b>$18,400</b><span class="tag">+12%</span></div>
+          <div class="card kpi"><span class="mu">Lo que pagas (3%)</span><b>$552</b></div>
+          <div class="card kpi"><span class="mu">Merma evitada</span><b>$1,150</b></div>
+          <div class="card kpi"><span class="mu">Ventas perdidas (aprox.)</span><b>$250</b></div>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <h3>Ventas por la plataforma · semana</h3>
+            <div class="bars">
+              <div><i style="height:40%"></i>L</div>
+              <div><i style="height:55%"></i>M</div>
+              <div><i style="height:48%"></i>M</div>
+              <div><i style="height:70%"></i>J</div>
+              <div><i style="height:90%"></i>V</div>
+              <div><i style="height:100%"></i>S</div>
+              <div><i style="height:62%"></i>D</div>
+            </div>
+          </div>
+          <div class="card warn">
+            <h3>⚠️ Requiere tu atención</h3>
+            <div id="resmerma"></div>
+            <div id="resalert"></div>
+          </div>
+        </div>
+        <div class="card">Tu balance: ganaste <b>$1,598</b> más de lo que pagaste. <span class="tag">Siempre ganas más de lo que pagas</span></div>
+      </section>
+
+      <section id="t-inv">
+        <div class="flex" style="flex-wrap:wrap">
+          <div>
+            <h2>Inventario</h2>
+            <p class="mu">Entradas, salidas y cambios de cada producto.</p>
+          </div>
+          <div class="row fit">
+            <button class="pri" onclick="openScan()">📷 Escanear estante</button>
+            <button onclick="M(1)">+ Agregar producto</button>
+            <button onclick="alert('Demo: aquí subirías tu CSV/Excel')">Importar mi base</button>
+          </div>
+        </div>
+        <input id="fi" placeholder="Filtrar producto…" oninput="rInv()" style="margin-top:8px">
+        <div class="card scroll">
+          <table id="inv"></table>
+        </div>
+      </section>
+
+      <section id="t-merma">
+        <h2>Merma y descuentos</h2>
+        <p class="mu">Ponle descuento a lo que está por caducar antes de tener que tirarlo.</p>
+        <div class="grid" style="margin-top:12px">
+          <div class="card kpi"><span class="mu">En riesgo (7 días)</span><b id="mk1"></b></div>
+          <div class="card kpi"><span class="mu">Recuperado con descuentos</span><b id="mk2"></b></div>
+          <div class="card kpi"><span class="mu">Merma registrada</span><b id="mk3"></b></div>
+        </div>
+        <div class="card">
+          <h3>Por caducar</h3>
+          <div id="mlist"></div>
+          <p class="mu" style="margin:8px 0 0">Descuento sugerido: 15% a 7 días, 30% a 3 días y 50% a 1 día o menos. Puedes cambiarlo antes de publicar.</p>
+        </div>
+        <div class="card warn">
+          <h3>Ya caducados</h3>
+          <div id="mexp"></div>
+        </div>
+        <div class="card">
+          <h3>Historial</h3>
+          <div id="mlog"></div>
+        </div>
+      </section>
+
+      <section id="t-alertas">
+        <h2>Alertas</h2>
+        <p class="mu">La cámara solo captura la imagen; tú decides qué hacer.</p>
+        <div id="alerts"></div>
+      </section>
+
+      <section id="t-cam">
+        <h2>Cámaras</h2>
+        <p class="mu">Simulación: la cámara solo captura la imagen; tú decides qué hacer.</p>
+        <span class="tag">Procesamiento local · sin reconocer rostros</span>
+        <div class="grid" id="camgrid" style="margin-top:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))"></div>
+        <h3 style="margin-top:16px">Capturas para revisión <span class="tag w" id="capn">0</span></h3>
+        <div id="caps"></div>
+      </section>
+
+      <section id="t-tend">
+        <h2>Lo que busca el barrio</h2>
+        <p class="mu">Resumen semanal.</p>
+        <div class="grid" style="margin-top:12px">
+          <div class="card">
+            <h3>Buscaron y no tenías</h3>
+            <div id="lost"></div>
+          </div>
+          <div class="card">
+            <h3>Más vendidos (tú vs. red)</h3>
+            <div id="top"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>💡 Compra en conjunto</h3>
+          <p>Huevo: 3 tiendas cercanas necesitan ~40 cajas/semana. Comprando juntas, el distribuidor baja ~8%.</p>
+          <button class="pri" onclick="this.textContent='Participas ✓'">Quiero participar</button>
+          <span class="mu">Opcional; verás el margen antes de aceptar.</span>
+        </div>
+      </section>
+
+      <section id="t-com">
+        <h2>Comunidad y puntos</h2>
+        <p class="mu">Las reglas las aprueban las tiendas.</p>
+        <div class="grid" style="margin-top:12px">
+          <div class="card kpi"><span class="mu">Fondo común</span><b>$6,200</b></div>
+          <div class="card kpi"><span class="mu">Puntos emitidos</span><b>3,100</b></div>
+          <div class="card kpi"><span class="mu">Puntos canjeados aquí</span><b>2,650</b></div>
+        </div>
+        <div class="card">
+          <h3>Propuestas para votar</h3>
+          <div id="votes"></div>
+        </div>
+      </section>
+
+      <section id="t-promo">
+        <h2>Crear promoción</h2>
+        <div class="card">
+          <div class="row">
+            <input id="pt" placeholder="Título (ej. 2x1 en refrescos)">
+            <input id="pd" type="date">
+          </div>
+          <div class="row" style="margin-top:8px">
+            <select id="pk">
+              <option>Descuento %</option>
+              <option>2x1</option>
+              <option>Puntos dobles</option>
+            </select>
+            <button class="pri fit" onclick="addPromo()">Publicar</button>
+          </div>
+          <p class="mu">Se muestra a vecinos cercanos (mira la pestaña Promos del celular).</p>
+        </div>
+        <div id="mypromos"></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal" id="m">
+    <div class="card">
+      <h3>Nuevo producto</h3>
+      <label class="thumb" id="th">📷 Tomar foto
+        <input type="file" accept="image/*" capture="environment" hidden onchange="foto(this)">
+      </label>
+      <input id="mn" placeholder="Nombre del producto" style="margin-top:8px">
+      <div class="row" style="margin-top:8px">
+        <input id="mq" type="number" min="0" placeholder="Cantidad">
+        <button class="fit" id="mic" onclick="voz()">🎤 Decir cantidad</button>
+      </div>
+      <input id="mp" type="number" placeholder="Precio $" style="margin-top:8px">
+      <label class="f" for="mc">Caducidad (opcional)</label>
+      <input id="mc" type="date">
+      <div class="row" style="margin-top:12px">
+        <button onclick="M(0)">Cancelar</button>
+        <button class="pri" onclick="saveP()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="scan">
+    <div class="card">
+      <div class="flex">
+        <h3 style="margin:0">📷 Escanear estante</h3>
+        <button onclick="closeScan()" aria-label="Cerrar">✕</button>
+      </div>
+      <p class="mu" style="margin:6px 0 10px">Toma fotos de tus anaqueles. La IA cuenta lo que ve y tú revisas todo antes de guardarlo.</p>
+      <div class="row">
+        <button onclick="camOn()" id="camb">📷 Abrir cámara</button>
+        <button onclick="$('sfile').click()">🖼️ Subir fotos</button>
+      </div>
+      <input id="sfile" type="file" accept="image/*" multiple hidden onchange="addFiles(this)">
+      <div id="camwrap" hidden>
+        <video id="vid" autoplay playsinline muted></video>
+        <div class="row" style="margin-top:8px">
+          <button class="pri" onclick="snap()">Capturar foto</button>
+          <button onclick="camOff()">Cerrar cámara</button>
+        </div>
+      </div>
+      <div id="shots" class="shots"></div>
+      <div id="qmsg"></div>
+      <label class="f" for="snote">¿Alguna foto salió borrosa? Escribe lo que hay en ese estante</label>
+      <textarea id="snote" rows="3" placeholder="Ej. 12 Coca-Cola 600 ml, 8 Sabritas, 5 aceite 1 L"></textarea>
+      <button class="pri" style="width:100%;margin-top:12px;padding:11px" id="sgo" onclick="analyze()">Analizar con IA</button>
+      <div class="mu" id="smode" style="margin-top:6px;text-align:center"></div>
+      <div id="sstat" style="margin-top:10px"></div>
+      <div id="sres"></div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
